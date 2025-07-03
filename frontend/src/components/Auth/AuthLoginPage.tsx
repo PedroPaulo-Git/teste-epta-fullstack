@@ -1,11 +1,13 @@
+'use client'
 import Image from "next/image";
 import React from "react";
 
 const AuthPage = () => {
-  const handleSubmitForm = (e:any)=>{
+ const handleSubmitForm = (e:any)=>{
     e.preventDefault()
-    alert("função pra login")
+    window.alert("função pra login")
   }
+ 
   return (
     <section className="bg-grayDefault-100 m-16 xl:m-36 grid grid-cols-2 rounded-4xl">
       <div className="flex flex-col text-center p-14 xl:p-28 ">
@@ -50,7 +52,7 @@ const AuthPage = () => {
           </p>
         </form>
       </div>
-      <div className="bg-blue-700 rounded-r-4xl"></div>
+      <div className="bg-blueButton-100 rounded-r-4xl"></div>
     </section>
   );
 };

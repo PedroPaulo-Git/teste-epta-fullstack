@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import AuthPage from '@/components/AuthLoginPage';
+import AuthPage from '@/components/Auth/AuthLoginPage';
 
 export default function Home() {
   return (
