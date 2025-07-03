@@ -124,37 +124,37 @@ Gerencie veículos com autenticação JWT, dashboard e operações completas de 
 ```
 ## 🚀 Como Rodar Localmente
 
-### 🔧 Backend
+# 🔧 Backend
 
-# Clone o repositório
+### Clone o repositório
 git clone https://github.com/seu-usuario/projeto-veiculos.git
 
-# Acesse a pasta do backend
+### Acesse a pasta do backend
 cd projeto-veiculos/backend
 
-# Instale as dependências
+### Instale as dependências
 npm install
 
-# Configure o ambiente (renomeie e edite o arquivo)
+### Configure o ambiente (renomeie e edite o arquivo)
 cp .env.example .env
 
-# Execute as migrações do banco de dados
+### Execute as migrações do banco de dados
 npx prisma migrate dev
 
-# Inicie o servidor
+### Inicie o servidor
 npm run server
 
-### 🔧 Frontend
+# 🔧 Frontend
 
 
-# Entrar na pasta frontend
+### Entrar na pasta frontend
 cd frontend
 
-# Instalar dependências
+### Instalar dependências
 npm install
 
-# Configurar o .env.local
+### Configurar o .env.local
 cp .env.local.example .env.local
 
-# Rodar o frontend
+### Rodar o frontend
 npm run dev
