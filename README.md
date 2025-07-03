@@ -62,7 +62,8 @@ Gerencie veículos com autenticação JWT, dashboard e operações completas de 
 | Método | Rota                    | Descrição                        |
 |--------|-------------------------|----------------------------------|
 | POST   | `/login`                | Login e geração de token JWT     |
-| POST   | `/register`             | Cadastro de novo usuário          |
+| POST   | `/register`             | Cadastro de novo usuário         |
+| GET    | `/vehicles/:id`         | Obter um veículo específico      |
 | GET    | `/vehicles`             | Listar todos os veículos         |
 | POST   | `/vehicles`             | Criar novo veículo               |
 | PUT    | `/vehicles/:id`         | Editar dados de um veículo       |
@@ -87,6 +88,9 @@ Gerencie veículos com autenticação JWT, dashboard e operações completas de 
     ├── routes/
     │   ├── authRoutes.ts           # Rotas de login, register
     │   └── vehicleRoutes.ts        # Rotas CRUD veículos
+    │
+    ├── schemas/
+    │   └── vehicleSchema.ts        # Schemas de validação (Zod)
     │
     ├── middlewares/
     │   ├── authMiddleware.ts       # Verifica JWT, protege rotas
@@ -120,35 +124,37 @@ Gerencie veículos com autenticação JWT, dashboard e operações completas de 
 ```
 ## 🚀 Como Rodar Localmente
 
-### 🔧 Backend
+# 🔧 Backend
 
+### Clone o repositório
+git clone https://github.com/seu-usuario/projeto-veiculos.git
 
-# Entrar na pasta backend
-cd backend
+### Acesse a pasta do backend
+cd projeto-veiculos/backend
 
-# Instalar dependências
+### Instale as dependências
 npm install
 
-# Configurar o .env
+### Configure o ambiente (renomeie e edite o arquivo)
 cp .env.example .env
 
-# Criar o banco e rodar as migrations
+### Execute as migrações do banco de dados
 npx prisma migrate dev
 
-# Rodar o servidor
-npm run dev
+### Inicie o servidor
+npm run server
 
-### 🔧 Frontend
+# 🔧 Frontend
 
 
-# Entrar na pasta frontend
+### Entrar na pasta frontend
 cd frontend
 
-# Instalar dependências
+### Instalar dependências
 npm install
 
-# Configurar o .env.local
+### Configurar o .env.local
 cp .env.local.example .env.local
 
-# Rodar o frontend
+### Rodar o frontend
 npm run dev
