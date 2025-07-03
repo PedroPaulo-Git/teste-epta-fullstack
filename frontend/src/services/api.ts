@@ -1,9 +1,12 @@
+
 import axios from "axios";
+
+console.log(`Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`)
 
 const api = axios.create({
   baseURL: "http://localhost:5000/api/",
   headers: {
-    Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`,
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
   },
 });
 

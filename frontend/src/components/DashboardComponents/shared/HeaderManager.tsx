@@ -1,7 +1,13 @@
 import React from "react";
 import Image from "next/image";
 
-const HeaderManager = () => {
+type HeaderManagerProps = {
+  ativos: number;
+  inativos: number;
+  total: number;
+};
+
+const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
   return (
     <header className="flex flex-col ">
       <span className="flex gap-4 ml-auto">
@@ -32,9 +38,9 @@ const HeaderManager = () => {
             />
           </div>
           <div className="">
-            <p>Total</p>
-            <p>
-              <strong>350</strong>
+            <p className="text-graySecondary-600 font-normal">Total</p>
+            <p className="text-darkgraySecondary-900 md:text-2xl">
+              <strong>{total}</strong>
             </p>
           </div>
         </span>
@@ -49,9 +55,9 @@ const HeaderManager = () => {
           </div>
 
           <div className="">
-            <p>Total</p>
-            <p>
-              <strong>350</strong>
+            <p className="text-graySecondary-600 font-normal">Ativos</p>
+            <p className="text-darkgraySecondary-900 md:text-2xl">
+              <strong>{ativos}</strong>
             </p>
           </div>
         </span>
@@ -66,9 +72,9 @@ const HeaderManager = () => {
           </div>
 
           <div className="">
-            <p>Total</p>
-            <p>
-              <strong>350</strong>
+            <p className="text-graySecondary-600 font-normal">inativos</p>
+            <p className="text-darkgraySecondary-900 md:text-2xl">
+              <strong>{inativos}</strong>
             </p>
           </div>
         </span>

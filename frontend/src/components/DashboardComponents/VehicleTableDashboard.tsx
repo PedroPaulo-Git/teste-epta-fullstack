@@ -5,28 +5,17 @@ import VehicleModal from '../Modals/VehicleModal';
 
 type Vehicle = {
   id: string;
-  name: string;
+  model: string;
   plate: string;
   status: string;
 };
+type Props = {
+  vehicles: Vehicle[];
+  fetchVehicles: () => void;
+};
 
-const VehicleTableDashboard = () => {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  // Pega a lista de veículos no backend
-  const fetchVehicles = async () => {
-    try {
-      const response = await api.get('/vehicles');
-      setVehicles(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar veículos:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchVehicles();
-  }, []);
+const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
     <section>
@@ -43,7 +32,7 @@ const VehicleTableDashboard = () => {
         <tbody>
           {vehicles.map((v) => (
             <tr key={v.id}>
-              <td>{v.name}</td>
+              <td>{v.model}</td>
               <td>{v.plate}</td>
               <td>{v.status}</td>
             </tr>

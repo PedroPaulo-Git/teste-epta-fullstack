@@ -18,10 +18,10 @@ export const getVehicleById = async (id: string) => {
 };
 
 //criar veículo 
-export const createVehicle = async (data:{name:string;plate:string;userId:number})=>{
+export const createVehicle = async (data:{model:string;plate:string;userId:number})=>{
     return prisma.vehicle.create({
         data:{
-            name:data.name,
+            model:data.model,
             plate:data.plate,
             status:"active",
             userId: data.userId,
@@ -29,7 +29,7 @@ export const createVehicle = async (data:{name:string;plate:string;userId:number
     });
 };
 //mudar dados do veículo 
-export const updateVehicle = async(id:string,data:{name?:string;plate?:string})=>{
+export const updateVehicle = async(id:string,data:{model?:string;plate?:string})=>{
     return prisma.vehicle.update({
         where:{id:Number(id)},
         data,
