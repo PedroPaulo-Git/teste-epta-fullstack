@@ -73,6 +73,8 @@ Gerencie veículos com autenticação JWT, dashboard e operações completas de 
 ---
 
 ## 📂 Estrutura de Pastas
+
+```plaintext
 /backend
 ├── prisma/
 │   └── schema.prisma               # Modelo do banco Prisma
@@ -115,7 +117,7 @@ Gerencie veículos com autenticação JWT, dashboard e operações completas de 
     └── hooks/
         └── useAuth.ts              # Hook customizado para auth (opcional)
 
-
+```
 ## 🚀 Como Rodar Localmente
 
 ### 🔧 Backend
