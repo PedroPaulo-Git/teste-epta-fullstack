@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../services/api'; 
 import VehicleModal from '../Modals/VehicleModal';
+import { CirclePlus } from 'lucide-react'; //adição de react lucide por conta do nome do icon ser lucide circle no figma
 
 type Vehicle = {
   id: string;
@@ -18,8 +19,11 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
-    <section>
-      <button onClick={() => setModalOpen(true)}>Cadastrar Veículo</button>
+    <section className='mt-10'>
+      <button 
+      onClick={() => setModalOpen(true)}
+      className='bg-blueButton-100 text-white flex text-center gap-2 p-2 
+      rounded-full hover:bg-blueButton-200 cursor-pointer hover:scale-98 transition'><CirclePlus/>Cadastrar Veículo</button>
 
       <table>
         <thead>
