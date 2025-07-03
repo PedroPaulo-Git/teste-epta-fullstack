@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  getVehicleById,
   getVehicles,
   createVehicle,
   updateVehicle,
@@ -13,6 +14,7 @@ const router = Router();
 
 router.use(authMiddleware); // precisa de autenticação
 
+router.get("/vehicles/:id",getVehicleById);
 router.get("/vehicles", getVehicles);
 router.post("/vehicles", createVehicle);
 router.put("/vehicles/:id", updateVehicle);
