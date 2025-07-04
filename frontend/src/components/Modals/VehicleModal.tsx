@@ -38,13 +38,14 @@ const VehicleModal: React.FC<Props> = ({ onClose, onVehicleCreated }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post("/vehicles", { model, plate });
+      await api.post("/api/vehicles", { model, plate });
       onVehicleCreated();
       setToast({ type: "success", message: "Veículo cadastrado com sucesso!" });
       setTimeout(() => {
         onClose();
       }, 1000);
     } catch (err) {
+     console.log(err) 
       const error = err as any;
   const errorMsg = error?.response?.data?.message?.toLowerCase();
   const isPlateError =

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import VehicleModal from "../Modals/VehicleModal";
+import DeleteVehicleModal from "../Modals/DeleteVehicleModal";
 import {
   CirclePlus,
   Pencil,
@@ -23,7 +24,21 @@ type Props = {
 
 const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+
+  const handleDeleteClick = (vehicle: Vehicle) => {
+    setSelectedVehicle(vehicle);
+    setDeleteModalOpen(true);
+    setOpenDropdownId(null); // Fecha o dropdown mobile
+  };
+
+  const handleDeleteSuccess = () => {
+    fetchVehicles();
+    setDeleteModalOpen(false);
+    setSelectedVehicle(null);
+  };
 
   return (
     <section className="mt-10 ">
@@ -91,7 +106,9 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                                 className="cursor-pointer text-black  hover:text-yellow-600"
                               />
                             </span>
-                            <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
+                            <span 
+                             onClick={() => handleDeleteClick(vehicle)}
+                             className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
                               <Trash2
                                 size={18}
                                 className="cursor-pointer text-red-500  hover:text-red-800"
@@ -100,7 +117,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                           </span>
 
                           {/* Para mobile */}
-                          <div className="sm:hidden">
+                          <div className="sm:hidden relative">
                             <button
                               onClick={() =>
                                 setOpenDropdownId(
@@ -124,7 +141,10 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                                   <Archive size={16} />
                                   Arquivar
                                 </button>
-                                <button className="flex items-center gap-2 text-sm text-red-500 hover:text-red-800">
+                                <button 
+                                  className="flex items-center gap-2 text-sm text-red-500 hover:text-red-800"
+                                  onClick={() => handleDeleteClick(vehicle)}
+                                >
                                   <Trash2 size={16} />
                                   Deletar
                                 </button>
@@ -146,6 +166,18 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
         <VehicleModal
           onClose={() => setModalOpen(false)}
           onVehicleCreated={fetchVehicles}
+        />
+      )}
+
+      {deleteModalOpen && selectedVehicle && (
+        <DeleteVehicleModal
+          onClose={() => {
+            setDeleteModalOpen(false);
+            setSelectedVehicle(null);
+          }}
+          onVehicleDeleted={handleDeleteSuccess}
+          vehicleId={selectedVehicle.id}
+          vehicleName={selectedVehicle.model}
         />
       )}
     </section>

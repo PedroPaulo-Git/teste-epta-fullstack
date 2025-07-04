@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import api from "../../services/api";
 
 const AuthRegisterPage = () => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const AuthRegisterPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post("http://localhost:5000/auth/register", {
+      const response = await api.post("/auth/register", {
         name,
         email,
         password,
@@ -31,9 +31,7 @@ const AuthRegisterPage = () => {
       alert("Registro realizado com sucesso!");
     } catch (err: any) {
       console.log(err);
-      console.log( name,
-        email,
-        password,)
+      setError("Erro no registro. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -62,7 +60,7 @@ const AuthRegisterPage = () => {
               <label className="text-grayInputText-400 font-medium" htmlFor="">Nome</label>
               <input
                 type="text"
-                placeholder="Digite sua senha"
+                placeholder="Digite seu nome"
                 onChange={(e) => setName(e.target.value)}
                 className="border border-grayInputBorder-100 text-grayDefault-600 bg-gray-50 shadow-sm rounded-xl p-2 focus:outline-none transition mt-2 pl-3"
               />

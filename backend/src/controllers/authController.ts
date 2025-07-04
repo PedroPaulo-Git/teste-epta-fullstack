@@ -1,5 +1,6 @@
 import { Request,Response} from 'express'
 import { registerUser,loginUser} from '../services/authService'
+import { AuthRequest } from '../middlewares/authMiddleware'
 
 
 export const register = async (req:Request,res:Response)=>{
@@ -31,3 +32,19 @@ export const login = async (req:Request,res:Response)=>{
         res.status(401).json({message:error.message || "Falha na autenticação. Verifique suas credenciais." })
     }
 }
+
+export const verifyToken = async (req: AuthRequest, res: Response) => {
+    try {
+        // O token foi validado com sucesso pelo middleware de autenticação
+        res.status(200).json({ 
+            message: "Token válido",
+            user: {
+                id: req.user?.id,
+                email: req.user?.email
+            }
+        });
+    } catch (error: any) {
+        console.error("Erro na verificação do token:", error.message);
+        res.status(401).json({ message: "Token inválido" });
+    }
+};

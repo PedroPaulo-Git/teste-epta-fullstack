@@ -22,8 +22,8 @@ const ManagerDashboard = () => {
   // Pega a lista de veículos no backend
   const fetchVehicles = async () => {
     try {
-      const response = await api.get("/vehicles");
-      console.log("vehicles", response);
+      const response = await api.get("/api/vehicles");
+      // console.log("vehicles", response);
       setVehicles(response.data);
     } catch (error) {
       console.error("Erro ao buscar veículos:", error);

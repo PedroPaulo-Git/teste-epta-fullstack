@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import api from "../../services/api";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const AuthPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post("http://localhost:5000/auth/login", {
+      const response = await api.post("/auth/login", {
         email,
         password,
       });
@@ -28,6 +28,7 @@ const AuthPage = () => {
       alert("Login realizado com sucesso!");
     } catch (err: any) {
       console.log(err);
+      setError("Erro no login. Verifique suas credenciais.");
     } finally {
       setLoading(false);
     }
