@@ -20,14 +20,14 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
         />
       </span>
       <div>
-        <h1 className="text-neutralDashboard-100 md:text-5xl md:font-normal mb-2">
+        <h1 className="text-neutralDashboard-100 text-3xl md:text-5xl md:font-normal mb-2">
           Olá Ewerton,
         </h1>
-        <h2 className="text-neutralDashboard-700 md:text-2xl md:font-normal">
+        <h2 className="text-neutralDashboard-700 sm:text-2xl md:font-normal">
           Cadastre e gerencie seus veículos
         </h2>
       </div>
-      <div className="grid md:grid-cols-3  gap-10 lg:w-2/3 mt-10">
+      <div className="grid md:grid-cols-3  gap-10 md:w-5/6 xl:w-2/3 mt-10">
         <span className="flex items-center shadow-md p-6 gap-4 rounded-md">
           <div className="bg-graySecondary-300 w-14 h-14 flex items-center text-center justify-center rounded-full">
             <Image
