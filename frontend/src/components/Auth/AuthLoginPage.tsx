@@ -12,7 +12,7 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmitForm = async (e: React.FormEvent) => {
+  const handleLoginSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -28,14 +28,6 @@ const AuthPage = () => {
       alert("Login realizado com sucesso!");
     } catch (err: any) {
       console.log(err);
-      console.log(email,password)
-      //    if (axios.isAxiosError(err) && err.response) {
-      //   setError(err.response.data.message || 'Erro ao fazer login.');
-      //   console.error("Login error response:", err.response.data);
-      //    } else {
-      //   setError('Erro de conexão ou inesperado.');
-      //   console.error("Login error:", err);
-      // }
     } finally {
       setLoading(false);
     }
@@ -57,7 +49,7 @@ const AuthPage = () => {
           </p>
         </div>
         <form
-          onSubmit={handleSubmitForm}
+          onSubmit={handleLoginSubmitForm}
           className="mt-6 gap-5 flex flex-col poppins-regular"
         >
           <span className="flex flex-col text-left">
@@ -85,10 +77,12 @@ const AuthPage = () => {
 
           <button
             type="submit"
-            className="w-full bg-blueButton-100 text-white font-semibold p-3 rounded-xl mt-5 shadow-lg"
+            className="cursor-pointer
+    w-full p-3 mt-5 rounded-xl font-semibold text-white transition shadow-[0_4px_15px_rgba(233,68,75,0.25)]
+    bg-blueButton-100 hover:bg-blueButton-200 hover:scale-98"
           >
           
-             {loading ? <Loader2 className="animate-spin" size={18} />: "Entrar"}
+             {loading ? <Loader2 className="animate-spin mx-auto" size={18} />: "Entrar"}
           </button>
           <p className="text-xs mt-28">
             Não tem uma conta?{" "}

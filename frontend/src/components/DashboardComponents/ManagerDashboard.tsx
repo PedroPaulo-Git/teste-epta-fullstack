@@ -1,10 +1,10 @@
 
 'use client'
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import HeaderManager from "./shared/HeaderManager";
 import VehicleTableDashboard from "./VehicleTableDashboard";
 import api from "@/services/api";
+
 
 const ManagerDashboard = () => {
   type Vehicle = {
@@ -14,10 +14,11 @@ const ManagerDashboard = () => {
     status: string;
   };
 
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);    
   const ativos = vehicles.filter((v) => v.status === "active").length;
   const inativos = vehicles.filter((v) => v.status === "inactive").length;
+
+
   // Pega a lista de veículos no backend
   const fetchVehicles = async () => {
     try {
@@ -32,6 +33,7 @@ const ManagerDashboard = () => {
   useEffect(() => {
     fetchVehicles();
   }, []);
+
 
   return (
     <section className="w-full p-8">
