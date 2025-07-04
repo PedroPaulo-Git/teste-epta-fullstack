@@ -28,67 +28,80 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
         <CirclePlus />
         Cadastrar Veículo
       </button>
+      <div className="mt-4 rounded-lg overflow-hidden">
+        <div className="overflow-x-auto">
+          <div className="min-w-full inline-block align-middle">
+            <div className="overflow-hidden">
+              <table className="min-w-full border-separate border-spacing-y-4  ">
+                <thead>
+                  <tr className="">
+                    <th className="border-b pl-4  border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
+                      Veículo
+                    </th>
+                    <th className="border-b pr-2 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
+                      Placa
+                    </th>
+                    <th className="border-b pr-11 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
+                      Status
+                    </th>
+                    {/* <th className="border-b px-3 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
+            </th> */}
+                  </tr>
+                </thead>
+              </table>
+              <div className="md:max-h-96 overflow-y-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <tbody className="bg-grayBackgroundTable-100 w-full gap-4 ">
+                    {vehicles.map((vehicle, index) => (
+                      <tr
+                        key={vehicle.id}
+                        className={
+                          index % 2 === 0 ? "bg-white/90  " : "bg-white "
+                        }
+                      >
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-black  border-b border-black/10">
+                          {vehicle.model}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-sm text-black  border-b border-black/10">
+                          {vehicle.plate}
+                        </td>
+                        <td className="flex justify-between whitespace-nowrap px-6 py-4 text-sm text-black  border-b border-black/10">
+                          <div className="flex items-center gap-2">
+                            <span className="block w-2 h-2 bg-greenCircleVehicleActive-100 rounded-full"></span>
+                            {vehicle.status === "active" ? "Ativo" : "Inativo"}
+                          </div>
 
-      <table className="min-w-full divide-y border-separate border-spacing-y-4 divide-gray-200 ">
-        <thead>
-          <tr className="">
-            <th className="px-6 border-b border-black/10 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutralDashboard-100">
-              Veículo
-            </th>
-            <th className="px-6 border-b border-black/10 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutralDashboard-100">
-              Placa
-            </th>
-            <th className="px-6 border-b border-black/10 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutralDashboard-100">
-              Status
-            </th>
-             <th className="px-6 border-b border-black/10 py-3 text-left text-xs font-medium uppercase tracking-wider text-neutralDashboard-100">
-            
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200 bg-grayBackgroundTable-100 gap-4">
-          {vehicles.map((vehicle, index) => (
-            <tr
-              key={vehicle.id}
-              className={index % 2 === 0 ? "bg-white/90  " : "bg-white "}
-            >
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-black  border-b border-black/10">
-                {vehicle.model}
-              </td>
-              <td className="whitespace-nowrap px-6 py-4 text-sm text-black  border-b border-black/10">
-                {vehicle.plate}
-              </td>
-              <td className="flex items-center gap-2 whitespace-nowrap px-6 py-4 text-sm text-black  border-b border-black/10">
-                <span className="block w-2 h-2 bg-greenCircleVehicleActive-100 rounded-full"></span>
-                {vehicle.status === "active" ? "Ativo" : "Inativo"}
-              </td>
+                          <span className="flex items-center justify-end gap-3">
+                            <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
+                              <Pencil
+                                size={18}
+                                className="cursor-pointer text-black  hover:text-blue-600"
+                              />
+                            </span>
+                            <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
+                              <Archive
+                                size={18}
+                                className="cursor-pointer text-black  hover:text-yellow-600"
+                              />
+                            </span>
+                            <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
+                              <Trash2
+                                size={18}
+                                className="cursor-pointer text-red-500  hover:text-red-800"
+                              />
+                            </span>
+                          </span>
+                        </td>
 
-              <td className="whitespace-nowrap px-6 py-2 text-right text-sm font-medium border-b border-black/10">
-                <span className="flex items-center justify-center gap-3">
-                  <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
-                    <Pencil
-                      size={18}
-                      className="cursor-pointer text-black  hover:text-blue-600"
-                    />
-                  </span>
-                  <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
-                    <Archive
-                      size={18}
-                      className="cursor-pointer text-black  hover:text-yellow-600"
-                    />
-                  </span>
-                  <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
-                    <Trash2
-                      size={18}
-                      className="cursor-pointer text-red-500  hover:text-red-800"
-                    />
-                  </span>
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {modalOpen && (
         <VehicleModal

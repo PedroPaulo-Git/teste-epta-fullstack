@@ -26,15 +26,10 @@
   --color-grayBackgroundTable-100:#C2C9D1;
 
   --color-greenCircleVehicleActive-100:#3CC13B;
-
-
- 
   
-  
-
- 
- 
-  
+}
+.poppins-regular {
+  font-family: var(--font-poppins); /* Use a variável CSS aqui */
 }
 
 body {

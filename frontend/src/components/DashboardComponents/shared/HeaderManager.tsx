@@ -28,12 +28,12 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
         </h2>
       </div>
       <div className="grid md:grid-cols-3  gap-10 lg:w-2/3 mt-10">
-        <span className="flex shadow-md p-4 gap-4 rounded-md">
-          <div className="bg-graySecondary-300 w-12 h-12 flex items-center text-center justify-center rounded-full">
+        <span className="flex items-center shadow-md p-6 gap-4 rounded-md">
+          <div className="bg-graySecondary-300 w-14 h-14 flex items-center text-center justify-center rounded-full">
             <Image
               src="/assets/DashboardRelatorioActive.svg"
               alt="Logo"
-              width={30}
+              width={40}
               height={100}
             />
           </div>
@@ -44,12 +44,12 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
             </p>
           </div>
         </span>
-        <span className="flex shadow-md p-4 gap-4 rounded-md">
-          <div className="bg-graySecondary-300 w-12 h-12 flex items-center text-center justify-center rounded-full">
+        <span className="flex items-center shadow-md p-6 gap-4 rounded-md">
+          <div className="bg-graySecondary-300 w-14 h-14 flex items-center text-center justify-center rounded-full">
             <Image
               src="/assets/DashboardCheckMark.svg"
               alt=""
-              width={30}
+              width={40}
               height={100}
             />
           </div>
@@ -61,12 +61,12 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
             </p>
           </div>
         </span>
-        <span className="flex shadow-md p-4 gap-4 rounded-md">
-          <div className="bg-graySecondary-300 w-12 h-12 flex items-center text-center justify-center rounded-full">
+        <span className="flex items-center shadow-md p-6 gap-4 rounded-md">
+          <div className="bg-graySecondary-300 w-14 h-14 flex items-center text-center justify-center rounded-full">
             <Image
               src="/assets/DashboardUserYellow.svg"
               alt=""
-              width={30}
+              width={40}
               height={100}
             />
           </div>
