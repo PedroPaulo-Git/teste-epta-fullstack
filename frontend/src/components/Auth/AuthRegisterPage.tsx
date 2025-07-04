@@ -7,7 +7,7 @@ import axios from "axios";
 
 const AuthRegisterPage = () => {
   const router = useRouter();
-  const [nome, setNome] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,16 +20,20 @@ const AuthRegisterPage = () => {
     setError(null);
     try {
       const response = await axios.post("http://localhost:5000/auth/register", {
+        name,
         email,
         password,
       });
       const data = response.data;
       console.log("Data:", data);
-      localStorage.setItem("token", data.token);
-      router.push("/dashboard");
-      alert("Login realizado com sucesso!");
+      // localStorage.setItem("token", data.token);
+      router.push("/login");
+      alert("Registro realizado com sucesso!");
     } catch (err: any) {
       console.log(err);
+      console.log( name,
+        email,
+        password,)
     } finally {
       setLoading(false);
     }
@@ -57,7 +61,7 @@ const AuthRegisterPage = () => {
               <input
                 type="text"
                 placeholder="Digite sua senha"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 className="border border-grayInputBorder-100 text-grayDefault-600 bg-gray-50 shadow-sm rounded-xl p-2 focus:outline-none transition mt-2 pl-3"
               />
             </span>
