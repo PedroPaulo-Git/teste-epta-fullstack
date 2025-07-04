@@ -34,8 +34,10 @@ const AuthPage = () => {
   };
 
   return (
-    <section className="bg-grayDefault-100 m-16 xl:m-36 grid grid-cols-2 rounded-4xl">
-      <div className="flex flex-col text-center p-14 xl:p-28 ">
+    <div className="min-h-screen flex md:items-center md:justify-center md:p-4">
+    <section className="bg-grayDefault-100 flex flex-col-reverse justify-end mx-auto w-full md:w-auto md:grid md:grid-cols-2 rounded-4xl">
+    <div className="bg-blueButton-100 md:rounded-r-4xl h-4 md:h-auto block md:hidden"></div>
+      <div className="flex flex-col my-auto text-center p-10 md:p-16 xl:px-28 xl:py-24">
         <div>
           <Image
             width={100}
@@ -78,11 +80,11 @@ const AuthPage = () => {
           <button
             type="submit"
             className="cursor-pointer
-    w-full p-3 mt-5 rounded-xl font-semibold text-white transition shadow-[0_4px_15px_rgba(233,68,75,0.25)]
-    bg-blueButton-100 hover:bg-blueButton-200 hover:scale-98"
+            w-full p-3 mt-5 rounded-xl font-semibold text-white transition shadow-[0_4px_15px_rgba(233,68,75,0.25)]
+           bg-blueButton-100 hover:bg-blueButton-200 hover:scale-98"
           >
           
-             {loading ? <Loader2 className="animate-spin mx-auto" size={18} />: "Entrar"}
+             {loading ? <Loader2 className="animate-spin mx-auto" size={20} />: "Entrar"}
           </button>
           <p className="text-xs mt-28">
             Não tem uma conta?{" "}
@@ -92,8 +94,9 @@ const AuthPage = () => {
           </p>
         </form>
       </div>
-      <div className="bg-blueButton-100 rounded-r-4xl"></div>
+      <div className="bg-blueButton-100 md:rounded-r-4xl h-4 md:h-auto"></div>
     </section>
+    </div>
   );
 };
 
