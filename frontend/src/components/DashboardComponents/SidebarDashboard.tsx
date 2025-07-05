@@ -1,14 +1,36 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+
 const SidebarDashboard = () => {
   const [activeItem, setActiveItem] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Atualizar item ativo baseado na rota atual
+  useEffect(() => {
+    if (pathname === "/dashboard") {
+      setActiveItem("Dashboard");
+    } else if (pathname === "/relatorio") {
+      setActiveItem("Relatório");
+    }
+  }, [pathname]);
 
   const handleItemClick = (itemName: string) => {
     setActiveItem(itemName);
+    setIsSidebarOpen(false); // Fechar sidebar mobile
+    
+    // Navegar para a página correspondente
+    if (itemName === "Dashboard") {
+      router.push("/dashboard");
+    } else if (itemName === "Relatório") {
+      router.push("/relatorio");
+    }
   };
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -45,7 +67,7 @@ const SidebarDashboard = () => {
           className="absolute top-4 right-4 cursor-pointer text-neutralDashboard-100"
         />
 
-        {/* Conteúdo da sidebar mobile */}
+        {/* sidebar mobile */}
         <Image src="/assets/Logo.png" alt="Logo" width={100} height={100} className="ml-4 w-32" />
         <h2 className="text-neutralDashboard-100 my-4 mx-5">Navegação</h2>
 

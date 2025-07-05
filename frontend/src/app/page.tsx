@@ -1,7 +1,47 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { checkTokenValidity } from "../services/api";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuthAndRedirect = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        
+        if (token) {
+          const isValid = await checkTokenValidity();
+          if (isValid) {
+            // Token válido, redirecionar para dashboard
+            router.push('/dashboard');
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao verificar autenticação:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthAndRedirect();
+  }, [router]);
+
+  // Mostrar loading enquanto verifica autenticação
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blueButton-100"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex md:items-center md:justify-center md:p-4 poppins-regular">
       <section

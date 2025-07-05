@@ -11,7 +11,7 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { user, fetchUserData } = useAuth();
+  const { user, fetchUserData, isLoading } = useAuth();
 
   useEffect(() => {
     // Buscar dados do usuário
@@ -86,8 +86,10 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
           </div>
         )}
         <div>
-          <h1 className="text-neutralDashboard-100 text-3xl md:text-5xl md:font-normal mb-2">
-            Olá {user?.name || "Usuário"},
+          <h1 className="text-neutralDashboard-100 text-3xl md:text-5xl md:font-normal mb-2 flex gap-2 items-center ">
+            Olá {isLoading ? (
+              <span className="inline-block w-24 h-8 lg:w-48 lg:h-12 bg-gray-300 rounded animate-pulse"></span>
+            ) : user?.name || "Usuário"},
           </h1>
           <h2 className="text-neutralDashboard-700 sm:text-2xl md:font-normal">
             Cadastre e gerencie seus veículos

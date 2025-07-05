@@ -38,7 +38,10 @@ export const useAuth = () => {
         const isValid = await checkTokenValidity();
         setIsAuthenticated(isValid);
         
-        if (!isValid) {
+        if (isValid) {
+          // Se o token é válido, buscar dados do usuário imediatamente
+          await fetchUserData();
+        } else {
           // Token inválido, redirecionar para login
           router.push('/login');
         }
