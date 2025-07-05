@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # BANCO DE DADOS
+  # ============================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: vehicle_db
+    environment:
+      POSTGRES_DB: vehicle_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - vehicle_network
+
+  # ============================================================================
+  # BACKEND (Express + TypeScript)
+  # ============================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vehicle_backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/vehicle_management
+      JWT_SECRET: your_jwt_secret_here
+      NODE_ENV: development
+      PORT: 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+    networks:
+      - vehicle_network
+    command: npm run server
+
+  # ============================================================================
+  # FRONTEND (Next.js + React)
+  # ============================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vehicle_frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:5000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - vehicle_network
+    command: npm run dev
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+volumes:
+  postgres_data:
+
+# ============================================================================
+# REDES
+# ============================================================================
+networks:
+  vehicle_network:
+    driver: bridge 

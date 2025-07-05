@@ -156,18 +156,49 @@ Gerencie veículos com autenticação JWT, dashboard intuitivo e operações com
 └── server.ts                   # Configuração do servidor Express
 ```
 
+### 🐳 **Configuração Docker**
+
+```plaintext
+/
+├── docker-compose.yml          # Orquestração dos serviços
+├── .dockerignore              # Arquivos ignorados pelo Docker
+├── DOCKER.md                  # Documentação Docker completa
+├── backend/
+│   └── Dockerfile             # Imagem do backend
+└── frontend/
+    └── Dockerfile             # Imagem do frontend
+```
+
 ---
 
 ## 🚀 Como Executar o Projeto
 
-### 🔧 Backend
+### 🐳 **Com Docker (Recomendado)**
 
 ```bash
 # Clone o repositório
 git clone https://github.com/seu-usuario/projeto-veiculos.git
 
+# Acesse a pasta do projeto
+cd projeto-veiculos
+
+# Execute com Docker Compose
+docker-compose up --build
+
+# Acesse a aplicação
+# Frontend: http://localhost:3000
+# Backend: http://localhost:5000
+```
+
+📖 **Documentação Docker completa**: [DOCKER.md](./DOCKER.md)
+
+### 🔧 **Instalação Manual**
+
+#### Backend
+
+```bash
 # Acesse a pasta do backend
-cd projeto-veiculos/backend
+cd backend
 
 # Instale as dependências
 npm install
@@ -180,14 +211,14 @@ cp .env.example .env
 npx prisma migrate dev
 
 # Inicie o servidor de desenvolvimento
-npm run server
+npm run dev
 ```
 
-### 💻 Frontend
+#### Frontend
 
 ```bash
 # Entre na pasta frontend
-cd ../frontend
+cd frontend
 
 # Instale as dependências
 npm install
