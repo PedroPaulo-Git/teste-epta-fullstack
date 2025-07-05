@@ -41,20 +41,48 @@ export type AuthResponse = {
 // ============================================================================
 
 /**
+ * Tipo de toast (sucesso ou erro)
+ * Usado em: Componente Toast, hook useToast
+ */
+export type ToastType = "success" | "error";
+
+/**
  * Props do componente Toast
- * Usado em: Componente Toast, todos os modais
+ * Usado em: Componente Toast, páginas de auth
  */
 export type ToastProps = {
+  message: string;
+  type: ToastType;
+  isVisible: boolean;
+  onClose: () => void;
+  duration?: number;
+};
+
+/**
+ * Estado interno do Toast
+ * Usado em: Hook useToast, páginas de auth
+ */
+export type ToastState = {
+  message: string;
+  type: ToastType;
+  isVisible: boolean;
+};
+
+/**
+ * Props do componente Toast (legado - usado nos modais)
+ * Usado em: Todos os modais (VehicleModal, EditVehicleModal, etc.)
+ */
+export type LegacyToastProps = {
   type: "success" | "error" | "warning";
   message: string;
   onClose: () => void;
 };
 
 /**
- * Estado interno do Toast (usado nos modais)
+ * Estado interno do Toast (legado - usado nos modais)
  * Usado em: Todos os modais (VehicleModal, EditVehicleModal, etc.)
  */
-export type ToastState = {
+export type LegacyToastState = {
   type: "success" | "error";
   message: string;
 } | null;
