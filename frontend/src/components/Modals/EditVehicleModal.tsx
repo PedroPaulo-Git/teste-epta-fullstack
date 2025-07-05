@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import api from "../../services/api";
 import { Car, X } from "lucide-react";
 import { Toast } from "../ui/Toast";
-
-type Vehicle = {
-  id: string;
-  model: string;
-  plate: string;
-  status: string;
-};
+import { Vehicle, ToastState } from "../../types";
 
 type Props = {
   onClose: () => void;
@@ -17,18 +11,17 @@ type Props = {
 };
 
 const EditVehicleModal: React.FC<Props> = ({ onClose, onVehicleUpdated, vehicle }) => {
-  const [toast, setToast] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const [toast, setToast] = useState<ToastState>(null);
   const [model, setModel] = useState(vehicle.model);
   const [plate, setPlate] = useState(vehicle.plate);
+  const [status, setStatus] = useState(vehicle.status);
   const [loading, setLoading] = useState(false);
 
   // Atualizar campos quando vehicle mudar
   useEffect(() => {
     setModel(vehicle.model);
     setPlate(vehicle.plate);
+    setStatus(vehicle.status);
   }, [vehicle]);
 
   const formatPlate = (value: string) => {
@@ -51,12 +44,16 @@ const EditVehicleModal: React.FC<Props> = ({ onClose, onVehicleUpdated, vehicle 
     setPlate(formatted);
   };
 
+  const handleStatusToggle = () => {
+    setStatus(status === "active" ? "inactive" : "active");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
     try {
-      await api.put(`/api/vehicles/${vehicle.id}`, { model, plate });
+      await api.put(`/api/vehicles/${vehicle.id}`, { model, plate, status });
       onVehicleUpdated();
       setToast({ type: "success", message: "Veículo atualizado com sucesso!" });
       setTimeout(() => {
@@ -87,6 +84,7 @@ const EditVehicleModal: React.FC<Props> = ({ onClose, onVehicleUpdated, vehicle 
 
   const isPlateValid = /^[A-Z]{3}-\d[A-Z]\d{2}$/.test(plate);
   const isModelValid = model.trim().length > 0;
+  const isActive = status === "active";
 
   return (
     <div className="fixed poppins-regular inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -132,6 +130,36 @@ const EditVehicleModal: React.FC<Props> = ({ onClose, onVehicleUpdated, vehicle 
                 onChange={handlePlateChange}
                 className="border border-grayInputBorder-100 text-grayDefault-600 bg-gray-50 shadow-sm rounded-xl p-2 focus:outline-none transition mt-2 pl-3"
               />
+            </span>
+
+            <span className="flex flex-col text-left">
+              <label className="text-grayInputText-400 font-medium mb-2">
+                Status do Veículo
+              </label>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-grayDefault-600">
+                  {isActive ? "Ativo" : "Inativo"}
+                </span>
+                <label
+                  htmlFor="vehicleStatus"
+                  className={`relative block h-8 w-14 rounded-full transition-colors [-webkit-tap-highlight-color:_transparent] ${
+                    isActive ? "bg-greenCircleVehicleActive-100" : "bg-gray-300"
+                  }`}
+                >
+                  <input 
+                    type="checkbox" 
+                    id="vehicleStatus" 
+                    className="peer sr-only" 
+                    checked={isActive}
+                    onChange={handleStatusToggle}
+                  />
+                  <span
+                    className={`absolute inset-y-0 start-0 m-1 size-6 rounded-full bg-white transition-[inset-inline-start] ${
+                      isActive ? "start-6" : "start-0"
+                    }`}
+                  ></span>
+                </label>
+              </div>
             </span>
             
             <button

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import api from "../../services/api";
 import { Trash2, X, AlertTriangle } from "lucide-react";
 import { Toast } from "../ui/Toast";
+import { ToastState } from "../../types";
 
 type Props = {
   onClose: () => void;
@@ -16,10 +17,7 @@ const DeleteVehicleModal: React.FC<Props> = ({
   vehicleId, 
   vehicleName 
 }) => {
-  const [toast, setToast] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const [toast, setToast] = useState<ToastState>(null);
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {

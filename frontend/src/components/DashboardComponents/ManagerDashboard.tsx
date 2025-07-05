@@ -1,23 +1,14 @@
-
 'use client'
 import React, { useEffect, useState } from "react";
 import HeaderManager from "./shared/HeaderManager";
 import VehicleTableDashboard from "./VehicleTableDashboard";
 import api from "@/services/api";
-
+import { Vehicle } from "@/types";
 
 const ManagerDashboard = () => {
-  type Vehicle = {
-    id: string;
-    model: string;
-    plate: string;
-    status: string;
-  };
-
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);    
   const ativos = vehicles.filter((v) => v.status === "active").length;
   const inativos = vehicles.filter((v) => v.status === "inactive").length;
-
 
   // Pega a lista de veículos no backend
   const fetchVehicles = async () => {

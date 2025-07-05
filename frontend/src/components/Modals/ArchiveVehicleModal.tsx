@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import api from "../../services/api";
 import { Archive, X } from "lucide-react";
 import { Toast } from "../ui/Toast";
-
-type Vehicle = {
-  id: string;
-  model: string;
-  plate: string;
-  status: string;
-};
+import { Vehicle, ToastState } from "../../types";
 
 type Props = {
   onClose: () => void;
@@ -17,10 +11,7 @@ type Props = {
 };
 
 const ArchiveVehicleModal: React.FC<Props> = ({ onClose, onVehicleArchived, vehicle }) => {
-  const [toast, setToast] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const [toast, setToast] = useState<ToastState>(null);
   const [loading, setLoading] = useState(false);
 
   const handleArchive = async () => {

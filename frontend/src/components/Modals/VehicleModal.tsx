@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import api from "../../services/api";
 import { Car, X } from "lucide-react";
 import { Toast } from "../ui/Toast";
+import { ToastState } from "../../types";
 
 type Props = {
   onClose: () => void;
@@ -9,10 +10,7 @@ type Props = {
 };
 
 const VehicleModal: React.FC<Props> = ({ onClose, onVehicleCreated }) => {
-  const [toast, setToast] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const [toast, setToast] = useState<ToastState>(null);
   const [model, setModel] = useState("");
   const [plate, setPlate] = useState("");
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import api from "../../services/api";
 import VehicleModal from "../Modals/VehicleModal";
 import DeleteVehicleModal from "../Modals/DeleteVehicleModal";
@@ -13,13 +13,7 @@ import {
   MoreVertical,
   RotateCcw,
 } from "lucide-react"; //adição de react lucide por conta do nome do icon ser lucide circle no figma
-
-type Vehicle = {
-  id: string;
-  model: string;
-  plate: string;
-  status: string;
-};
+import { Vehicle } from "../../types";
 
 type Props = {
   vehicles: Vehicle[];
@@ -44,6 +38,32 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
     selectedVehicle: null,
     openDropdownId: null,
   });
+
+  // detectar cliques fora do dropdown
+  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  //fechar dropdown quando clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalState.openDropdownId) {
+        const dropdownElement = dropdownRefs.current[modalState.openDropdownId];
+        if (
+          dropdownElement &&
+          !dropdownElement.contains(event.target as Node)
+        ) {
+          setModalState((prev) => ({
+            ...prev,
+            openDropdownId: null,
+          }));
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalState.openDropdownId]);
 
   const openModal = (
     type: "create" | "edit" | "archive" | "delete",
@@ -86,6 +106,10 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
     try {
       await api.patch(`/api/vehicles/${vehicleId}/restore`);
       fetchVehicles();
+      setModalState((prev) => ({
+        ...prev,
+        openDropdownId: null,
+      }));
     } catch (error) {
       console.error("Erro ao restaurar veículo:", error);
     }
@@ -111,7 +135,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                     <th className="border-b pl-2 sm:pl-4  border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
                       Veículo
                     </th>
-                    <th className="border-b pl-14 sm:pl-0 px-6 sm:pr-4 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
+                    <th className="border-b sm:pl-14 px-6 sm:pr-4 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
                       Placa
                     </th>
                     <th className="border-b pr-2 sm:pr-16 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
@@ -149,14 +173,13 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                               {vehicle.status === "active"
                                 ? "Ativo"
                                 : "Inativo"}
-                           
                             </span>
                           </div>
 
                           <span className="hidden sm:flex items-center justify-end gap-3">
                             <span
                               className="bg-white shadow-sm w-8 h-8 
-                            flex items-center justify-center rounded-md"
+                              flex items-center justify-center rounded-md"
                               onClick={() => openModal("edit", vehicle)}
                             >
                               <Pencil
@@ -199,12 +222,16 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                               onClick={() => toggleDropdown(vehicle.id)}
                               className="w-8 h-8 flex items-center justify-center rounded-md cursor-pointer"
                             >
-                              
                               <MoreVertical size={18} className="text-black" />
                             </button>
 
                             {modalState.openDropdownId === vehicle.id && (
-                              <div className="absolute right-0 mt-2  bg-white shadow-lg rounded-md z-50 p-2 flex flex-col gap-2">
+                              <div
+                                ref={(el) => {
+                                  dropdownRefs.current[vehicle.id] = el;
+                                }}
+                                className="absolute right-0 mt-2  bg-white shadow-lg rounded-md z-50 p-2 flex flex-col gap-2"
+                              >
                                 <div
                                   className="absolute -top-2 right-4 transform rotate-45 w-4 h-4 bg-white shadow-xl z-50"
                                   style={{ right: "calc(50% - 8px)" }}
@@ -219,20 +246,24 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                                 {vehicle.status === "active" ? (
                                   <button
                                     className="flex items-center cursor-pointer gap-2 text-sm text-black hover:text-yellow-600"
-                                    onClick={() => openModal("archive", vehicle)}
+                                    onClick={() =>
+                                      openModal("archive", vehicle)
+                                    }
                                   >
                                     <Archive size={16} />
                                     Arquivar
                                   </button>
-                                ):(<>
-                                <button
-                                    className="flex items-center cursor-pointer gap-2 text-sm text-black hover:text-yellow-600"
-                                    onClick={() => handleRestore(vehicle.id)}
-                                  >
-                                    <RotateCcw size={16} />
-                                    Restaurar
-                                  </button>
-                                </>)}
+                                ) : (
+                                  <>
+                                    <button
+                                      className="flex items-center cursor-pointer gap-2 text-sm text-black hover:text-yellow-600"
+                                      onClick={() => handleRestore(vehicle.id)}
+                                    >
+                                      <RotateCcw size={16} />
+                                      Restaurar
+                                    </button>
+                                  </>
+                                )}
                                 <button
                                   className="flex items-center cursor-pointer gap-2 text-sm text-black hover:text-red-600"
                                   onClick={() => openModal("delete", vehicle)}

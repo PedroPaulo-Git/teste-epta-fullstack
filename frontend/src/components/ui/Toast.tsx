@@ -1,12 +1,7 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Check, XCircle, AlertTriangle } from 'lucide-react';
-
-type ToastProps = {
-  type: 'success' | 'error' | 'warning';
-  message: string;
-  onClose: () => void;
-};
+import { ToastProps } from '../../types';
 
 const iconMap = {
   success: <Check className="text-green-600" size={20} />,
