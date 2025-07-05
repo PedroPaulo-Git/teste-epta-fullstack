@@ -169,7 +169,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
         <div className=" flex gap-3 w-full sm:w-auto">
           <button
             onClick={() => openModal("create")}
-            className="w-64 bg-blueButton-100 text-white flex text-center items-center gap-2 p-2 
+            className="w-64 sm:w-auto  bg-blueButton-100 text-white flex text-center items-center gap-2 p-2 
         rounded-full hover:bg-blueButton-200 cursor-pointer hover:scale-98 transition"
           >
             <CirclePlus />
