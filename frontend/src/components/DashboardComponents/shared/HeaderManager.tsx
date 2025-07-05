@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { logout } from "@/services/api";
+import { useAuth } from "@/hooks/useAuth";
 
 type HeaderManagerProps = {
   ativos: number;
@@ -11,6 +13,13 @@ type HeaderManagerProps = {
 const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { user, fetchUserData } = useAuth();
+
+  useEffect(() => {
+    // Buscar dados do usuário
+    fetchUserData();
+  }, [fetchUserData]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -60,14 +69,14 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
           <button className="text-left text-sm hover:bg-gray-100 p-2 rounded-md cursor-pointer text-gray-800">
             Configurações
           </button>
-          <button className="text-left text-sm hover:bg-red-100 p-2 rounded-md cursor-pointer text-red-500">
+          <button onClick={logout} className="text-left text-sm hover:bg-red-100 p-2 rounded-md cursor-pointer text-red-500">
             Sair
           </button>
         </div>
       )}
       <div>
         <h1 className="text-neutralDashboard-100 text-3xl md:text-5xl md:font-normal mb-2">
-          Olá Ewerton,
+          Olá {user?.name || "Usuário"},
         </h1>
         <h2 className="text-neutralDashboard-700 sm:text-2xl md:font-normal">
           Cadastre e gerencie seus veículos

@@ -1,11 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { checkTokenValidity, logout } from '../services/api';
+import api from '../services/api';
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
 
 export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
+
+  const fetchUserData = async () => {
+    try {
+      const response = await api.get('/auth/user');
+      setUser(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar dados do usuário:', error);
+    }
+  };
 
   useEffect(() => {
     const validateToken = async () => {
@@ -44,6 +61,8 @@ export const useAuth = () => {
   return {
     isAuthenticated,
     isLoading,
-    logout: handleLogout
+    user,
+    logout: handleLogout,
+    fetchUserData
   };
 };
