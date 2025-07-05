@@ -12,12 +12,16 @@ import {
   Trash2,
   MoreVertical,
   RotateCcw,
+  Filter,
+  Car,
+  Loader2,
 } from "lucide-react"; //adição de react lucide por conta do nome do icon ser lucide circle no figma
 import { Vehicle } from "../../types";
 
 type Props = {
   vehicles: Vehicle[];
   fetchVehicles: () => void;
+  loading: boolean;
 };
 
 type ModalState = {
@@ -29,7 +33,13 @@ type ModalState = {
   openDropdownId: string | null;
 };
 
-const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
+type FilterState = {
+  sortBy: "name" | "status";
+  statusFilter: "all" | "active" | "inactive";
+  isOpen: boolean;
+};
+
+const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
   const [modalState, setModalState] = useState<ModalState>({
     create: false,
     edit: false,
@@ -39,8 +49,15 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
     openDropdownId: null,
   });
 
+  const [filterState, setFilterState] = useState<FilterState>({
+    sortBy: "name",
+    statusFilter: "all",
+    isOpen: false,
+  });
+
   // detectar cliques fora do dropdown
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const filterDropdownRef = useRef<HTMLDivElement>(null);
 
   //fechar dropdown quando clicar fora
   useEffect(() => {
@@ -57,13 +74,41 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
           }));
         }
       }
+
+      // fechar dropdown de filtro
+      if (filterState.isOpen && filterDropdownRef.current && !filterDropdownRef.current.contains(event.target as Node)) {
+        setFilterState(prev => ({ ...prev, isOpen: false }));
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [modalState.openDropdownId]);
+  }, [modalState.openDropdownId, filterState.isOpen]);
+
+  // function pra filtrar e ordenar veículos
+  const getFilteredVehicles = () => {
+    let filtered = [...vehicles];
+
+    // por status
+    if (filterState.statusFilter !== "all") {
+      filtered = filtered.filter(vehicle => vehicle.status === filterState.statusFilter);
+    }
+
+    // Ordenar
+    filtered.sort((a, b) => {
+      if (filterState.sortBy === "name") {
+        return a.model.localeCompare(b.model);
+      } else {
+        return a.status.localeCompare(b.status);
+      }
+    });
+
+    return filtered;
+  };
+
+  const filteredVehicles = getFilteredVehicles();
 
   const openModal = (
     type: "create" | "edit" | "archive" | "delete",
@@ -117,14 +162,153 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
 
   return (
     <section className="mt-10 ">
-      <button
-        onClick={() => openModal("create")}
-        className="bg-blueButton-100 text-white flex text-center gap-2 p-2 
-      rounded-full hover:bg-blueButton-200 cursor-pointer hover:scale-98 transition"
-      >
-        <CirclePlus />
-        Cadastrar Veículo
-      </button>
+      <div className="flex items-center gap-3 mb-4">
+        <button
+          onClick={() => openModal("create")}
+          className="bg-blueButton-100 text-white flex text-center gap-2 p-2 
+        rounded-full hover:bg-blueButton-200 cursor-pointer hover:scale-98 transition"
+        >
+          <CirclePlus />
+          Cadastrar Veículo
+        </button>
+        
+        {/* Filtro */}
+        <div className="relative" ref={filterDropdownRef}>
+          <button
+            onClick={() => setFilterState(prev => ({ ...prev, isOpen: !prev.isOpen }))}
+            className={`p-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${
+              filterState.isOpen 
+                ? 'bg-blueButton-100 text-white' 
+                : 'bg-gray-50 hover:bg-gray-100 text-gray-600'
+            }`}
+            title="Filtrar veículos"
+          >
+            <Filter size={16} />
+            <span className="text-sm font-medium">Filtrar</span>
+          </button>
+          
+          {filterState.isOpen && (
+            <div className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg z-50 min-w-48">
+              {/* Ordenação */}
+              <div className="p-3">
+                <h5 className="text-xs font-medium text-gray-500 mb-2">Ordenar por</h5>
+                <div className="space-y-1">
+                  <div 
+                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
+                      filterState.sortBy === "name" 
+                        ? 'bg-blue-50 text-blueButton-100' 
+                        : 'hover:bg-gray-50 text-gray-700'
+                    }`}
+                    onClick={() => setFilterState(prev => ({ ...prev, sortBy: "name" }))}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      filterState.sortBy === "name" 
+                        ? 'border-blueButton-100 bg-blueButton-100' 
+                        : 'border-gray-300'
+                    }`}>
+                      {filterState.sortBy === "name" && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                      )}
+                    </div>
+                    <span className="text-sm font-medium">Nome (A-Z)</span>
+                  </div>
+                  
+                  <div 
+                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
+                      filterState.sortBy === "status" 
+                        ? 'bg-blue-50 text-blueButton-100' 
+                        : 'hover:bg-gray-50 text-gray-700'
+                    }`}
+                    onClick={() => setFilterState(prev => ({ ...prev, sortBy: "status" }))}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      filterState.sortBy === "status" 
+                        ? 'border-blueButton-100 bg-blueButton-100' 
+                        : 'border-gray-300'
+                    }`}>
+                      {filterState.sortBy === "status" && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                      )}
+                    </div>
+                    <span className="text-sm font-medium">Status</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Filtro por Status */}
+              <div className="p-3 pt-0">
+                <h5 className="text-xs font-medium text-gray-500 mb-2">Filtrar por status</h5>
+                <div className="space-y-1">
+                  <div 
+                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
+                      filterState.statusFilter === "all" 
+                        ? 'bg-blue-50 text-blueButton-100' 
+                        : 'hover:bg-gray-50 text-gray-700'
+                    }`}
+                    onClick={() => setFilterState(prev => ({ ...prev, statusFilter: "all" }))}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      filterState.statusFilter === "all" 
+                        ? 'border-blueButton-100 bg-blueButton-100' 
+                        : 'border-gray-300'
+                    }`}>
+                      {filterState.statusFilter === "all" && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                      )}
+                    </div>
+                    <span className="text-sm font-medium">Todos</span>
+                  </div>
+                  
+                  <div 
+                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
+                      filterState.statusFilter === "active" 
+                        ? 'bg-green-50 text-greenCircleVehicleActive-100' 
+                        : 'hover:bg-gray-50 text-gray-700'
+                    }`}
+                    onClick={() => setFilterState(prev => ({ ...prev, statusFilter: "active" }))}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      filterState.statusFilter === "active" 
+                        ? 'border-2 border-greenCircleVehicleActive-100 bg-greenCircleVehicleActive-100' 
+                        : 'border-gray-300'
+                    }`}>
+                      {filterState.statusFilter === "active" && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">Ativos</span>
+                    </div>
+                  </div>
+                  
+                  <div 
+                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
+                      filterState.statusFilter === "inactive" 
+                        ? 'bg-yellow-50 text-YellowCircleVehicleInactive-100' 
+                        : 'hover:bg-gray-50 text-gray-700'
+                    }`}
+                    onClick={() => setFilterState(prev => ({ ...prev, statusFilter: "inactive" }))}
+                  >
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      filterState.statusFilter === "inactive" 
+                        ? 'border-YellowCircleVehicleInactive-100 bg-YellowCircleVehicleInactive-100' 
+                        : 'border-gray-300'
+                    }`}>
+                      {filterState.statusFilter === "inactive" && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">Inativos</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      
       <div className="mt-4 rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <div className=" w-full sm:min-w-full inline-block align-middle">
@@ -145,9 +329,47 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                 </thead>
               </table>
               <div className="md:max-h-96 overflow-y-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <tbody className="bg-grayBackgroundTable-100 w-full gap-4 ">
-                    {vehicles.map((vehicle, index) => (
+                {loading ? (
+                  // Loader enquanto carrega
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className=" p-6 rounded-full mb-4">
+                      <Loader2 size={48} className="text-gray-400 animate-spin" />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      Carregando veículos...
+                    </h3>
+                    <p className="text-gray-500 max-w-sm">
+                      Aguarde enquanto buscamos seus veículos.
+                    </p>
+                  </div>
+                ) : filteredVehicles.length === 0 ? (
+                  // Fallback quando não há veículos
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="bg-gray-100 p-6 rounded-full mb-4">
+                      <Car size={48} className="text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      {vehicles.length === 0 ? "Nenhum veículo cadastrado" : "Nenhum veículo encontrado"}
+                    </h3>
+                    <p className="text-gray-500 mb-4 max-w-sm">
+                      {vehicles.length === 0 
+                        ? "Comece cadastrando seu primeiro veículo para gerenciar sua frota."
+                        : "Tente ajustar os filtros para encontrar o que procura."
+                      }
+                    </p>
+                    {vehicles.length === 0 && (
+                      <button
+                        onClick={() => openModal("create")}
+                        className="bg-blueButton-100 text-white px-4 py-2 rounded-lg hover:bg-blueButton-200 transition-colors"
+                      >
+                        Cadastrar Primeiro Veículo
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <tbody className="bg-grayBackgroundTable-100 w-full gap-4 ">
+                      {filteredVehicles.map((vehicle, index) => (
                       <tr
                         key={vehicle.id}
                         className={
@@ -279,6 +501,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                     ))}
                   </tbody>
                 </table>
+                )}
               </div>
             </div>
           </div>

@@ -7,17 +7,21 @@ import { Vehicle } from "@/types";
 
 const ManagerDashboard = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);    
+  const [loading, setLoading] = useState(true);
   const ativos = vehicles.filter((v) => v.status === "active").length;
   const inativos = vehicles.filter((v) => v.status === "inactive").length;
 
   // Pega a lista de veículos no backend
   const fetchVehicles = async () => {
+    setLoading(true);
     try {
       const response = await api.get("/api/vehicles");
       // console.log("vehicles", response);
       setVehicles(response.data);
     } catch (error) {
       console.error("Erro ao buscar veículos:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,6 +40,7 @@ const ManagerDashboard = () => {
       <VehicleTableDashboard
         vehicles={vehicles}
         fetchVehicles={fetchVehicles}
+        loading={loading}
       />
     </section>
   );
