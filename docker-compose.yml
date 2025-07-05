@@ -16,7 +16,7 @@ services:
     networks:
       - vehicle_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      test: ["CMD-SHELL", "pg_isready -U postgres  -d vehicle_management"]
       interval: 5s
       timeout: 5s
       retries: 5
