@@ -15,6 +15,12 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - vehicle_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s 
 
   # ============================================================================
   # BACKEND (Express + TypeScript)
@@ -35,7 +41,8 @@ services:
       - ./backend:/app
       - /app/node_modules
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - vehicle_network
     entrypoint: ["sh", "-c", "npx prisma migrate deploy && npm run server"]
