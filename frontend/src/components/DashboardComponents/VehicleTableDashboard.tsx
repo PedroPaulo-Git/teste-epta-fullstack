@@ -165,7 +165,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
       <div className="flex items-center gap-3 mb-4">
         <button
           onClick={() => openModal("create")}
-          className="bg-blueButton-100 text-white flex text-center gap-2 p-2 
+          className="bg-blueButton-100 text-white flex text-center items-center gap-2 p-2 
         rounded-full hover:bg-blueButton-200 cursor-pointer hover:scale-98 transition"
         >
           <CirclePlus />
@@ -188,7 +188,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
           </button>
           
           {filterState.isOpen && (
-            <div className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg z-50 min-w-48">
+            <div className="absolute top-full right-0 sm:left-0 mt-2 bg-white shadow-lg rounded-lg z-50 min-w-48">
               {/* Ordenação */}
               <div className="p-3">
                 <h5 className="text-xs font-medium text-gray-500 mb-2">Ordenar por</h5>
@@ -206,9 +206,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
                         ? 'border-blueButton-100 bg-blueButton-100' 
                         : 'border-gray-300'
                     }`}>
-                      {filterState.sortBy === "name" && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                      )}
+
                     </div>
                     <span className="text-sm font-medium">Nome (A-Z)</span>
                   </div>
@@ -226,9 +224,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
                         ? 'border-blueButton-100 bg-blueButton-100' 
                         : 'border-gray-300'
                     }`}>
-                      {filterState.sortBy === "status" && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                      )}
+    
                     </div>
                     <span className="text-sm font-medium">Status</span>
                   </div>
@@ -252,9 +248,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
                         ? 'border-blueButton-100 bg-blueButton-100' 
                         : 'border-gray-300'
                     }`}>
-                      {filterState.statusFilter === "all" && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                      )}
+          
                     </div>
                     <span className="text-sm font-medium">Todos</span>
                   </div>
@@ -272,9 +266,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
                         ? 'border-2 border-greenCircleVehicleActive-100 bg-greenCircleVehicleActive-100' 
                         : 'border-gray-300'
                     }`}>
-                      {filterState.statusFilter === "active" && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                      )}
+                
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium">Ativos</span>
@@ -294,9 +286,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
                         ? 'border-YellowCircleVehicleInactive-100 bg-YellowCircleVehicleInactive-100' 
                         : 'border-gray-300'
                     }`}>
-                      {filterState.statusFilter === "inactive" && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-                      )}
+                    
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium">Inativos</span>

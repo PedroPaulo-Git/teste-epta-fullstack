@@ -88,3 +88,41 @@ export const getUserData = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ message: "Erro interno do servidor" });
   }
 };
+
+//controller pra atualizar perfil do usuário
+export const updateProfile = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const { name } = req.body;
+
+    if (!userId) {
+      res.status(401).json({ message: "Usuário não autenticado" });
+      return;
+    }
+
+    if (!name || name.trim().length === 0) {
+      res.status(400).json({ message: "Nome é obrigatório" });
+      return;
+    }
+
+    if (name.trim().length < 2) {
+      res.status(400).json({ message: "Nome deve ter pelo menos 2 caracteres" });
+      return;
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { name: name.trim() },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+
+    res.status(200).json(updatedUser);
+  } catch (error: any) {
+    console.error("Erro ao atualizar perfil:", error.message);
+    res.status(500).json({ message: "Erro interno do servidor" });
+  }
+};
