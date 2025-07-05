@@ -3,22 +3,26 @@
 # ============================================================================
 
 # Imagem base Node.js
-FROM node:18-alpine
+FROM node:18
 
 # Define o diretório de trabalho
 WORKDIR /app
 
 # Instala dependências do sistema
-RUN apk add --no-cache python3 make g++
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 # Copia arquivos de dependências
+ENV NODE_ENV=development
 COPY package*.json ./
 
 # Instala dependências
-RUN npm ci --only=production
+RUN npm ci
 
 # Copia o código fonte
 COPY . .
+
+# Gerar banco prisma
+RUN npx prisma generate
 
 # Compila TypeScript
 RUN npm run build

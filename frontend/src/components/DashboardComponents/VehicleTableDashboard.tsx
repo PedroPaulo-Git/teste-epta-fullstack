@@ -343,7 +343,7 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
         </div>
       {/* Contador de resultados */}
       {filterState.searchTerm && (
-        <div className="mb-4 text-sm text-gray-600">
+        <div className="mb-4 mt-2 text-sm text-gray-600 text-center sm:text-left ">
           {filteredVehicles.length === 1
             ? `1 veículo encontrado para "${filterState.searchTerm}"`
             : `${filteredVehicles.length} veículos encontrados para "${filterState.searchTerm}"`}
