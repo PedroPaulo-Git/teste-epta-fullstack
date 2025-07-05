@@ -16,7 +16,7 @@ import {
   Car,
   Loader2,
 } from "lucide-react"; //adição de react lucide por conta do nome do icon ser lucide circle no figma
-import { Vehicle } from "../../types";
+import { Vehicle,ModalState,FilterState } from "../../types";
 
 type Props = {
   vehicles: Vehicle[];
@@ -24,20 +24,6 @@ type Props = {
   loading: boolean;
 };
 
-type ModalState = {
-  create: boolean;
-  edit: boolean;
-  archive: boolean;
-  delete: boolean;
-  selectedVehicle: Vehicle | null;
-  openDropdownId: string | null;
-};
-
-type FilterState = {
-  sortBy: "name" | "status";
-  statusFilter: "all" | "active" | "inactive";
-  isOpen: boolean;
-};
 
 const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
   const [modalState, setModalState] = useState<ModalState>({

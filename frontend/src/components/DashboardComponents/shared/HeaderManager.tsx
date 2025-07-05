@@ -4,12 +4,8 @@ import Image from "next/image";
 import { logout } from "@/services/api";
 import { useAuth } from "@/hooks/useAuth";
 import HeaderModalUserEdit from "../../Modals/HeaderModalUserEdit";
+import { HeaderManagerProps } from "@/types";
 
-type HeaderManagerProps = {
-  ativos: number;
-  inativos: number;
-  total: number;
-};
 
 const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
   const [isOpen, setIsOpen] = useState(false);

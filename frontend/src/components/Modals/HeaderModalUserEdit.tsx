@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
-import { User, X } from "lucide-react";
+import { User, X, Loader2 } from "lucide-react";
 import { Toast } from "../ui/Toast";
 import { ToastState } from "../../types";
 
@@ -10,7 +10,11 @@ type Props = {
   currentName: string;
 };
 
-const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentName }) => {
+const HeaderModalUserEdit: React.FC<Props> = ({
+  onClose,
+  onUserUpdated,
+  currentName,
+}) => {
   const [newName, setNewName] = useState(currentName);
   const [toast, setToast] = useState<ToastState>(null);
   const [loading, setLoading] = useState(false);
@@ -21,11 +25,11 @@ const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentN
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!newName.trim()) {
       setToast({
         type: "error",
-        message: "Nome não pode estar vazio"
+        message: "Nome não pode estar vazio",
       });
       return;
     }
@@ -33,7 +37,7 @@ const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentN
     if (newName.trim() === currentName) {
       setToast({
         type: "error",
-        message: "Nome deve ser diferente do atual"
+        message: "Nome deve ser diferente do atual",
       });
       return;
     }
@@ -41,23 +45,25 @@ const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentN
     setLoading(true);
     try {
       await api.put("/auth/profile", { name: newName.trim() });
-      
+
       setToast({
         type: "success",
-        message: "Nome atualizado com sucesso!"
+        message: "Nome atualizado com sucesso!",
       });
-      
+
       onUserUpdated();
-      
+
       setTimeout(() => {
         onClose();
       }, 1000);
     } catch (error: any) {
       console.error("Erro ao atualizar perfil:", error);
-      const errorMessage = error?.response?.data?.message || "Erro ao atualizar nome. Tente novamente.";
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Erro ao atualizar nome. Tente novamente.";
       setToast({
         type: "error",
-        message: errorMessage
+        message: errorMessage,
       });
     } finally {
       setLoading(false);
@@ -73,16 +79,16 @@ const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentN
         >
           <X size={16} />
         </button>
-        
+
         <div className="flex flex-col items-center text-center">
           <div className="bg-blue-100 p-3 rounded-full mb-4">
             <User size={40} className="text-blue-600" />
           </div>
-          
+
           <h2 className="font-extrabold text-xl text-center mb-2">
             Editar Perfil
           </h2>
-          
+
           <form onSubmit={handleUpdateProfile} className="w-full mt-4">
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 text-left mb-2">
@@ -97,7 +103,7 @@ const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentN
                 disabled={loading}
               />
             </div>
-            
+
             <div className="flex gap-3">
               <button
                 type="button"
@@ -107,13 +113,17 @@ const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentN
               >
                 Cancelar
               </button>
-              
+
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 p-3 rounded-lg font-semibold text-white bg-blueButton-100 hover:bg-blueButton-200 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 p-3 justify-center rounded-lg font-semibold text-white bg-blueButton-100 hover:bg-blueButton-200 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? "Salvando..." : "Salvar"}
+                {loading ? (
+                  <Loader2 size={16} className="mx-auto animate-spin" />
+                ) : (
+                  "Salvar"
+                )}
               </button>
             </div>
           </form>
@@ -131,4 +141,4 @@ const HeaderModalUserEdit: React.FC<Props> = ({ onClose, onUserUpdated, currentN
   );
 };
 
-export default HeaderModalUserEdit; 
+export default HeaderModalUserEdit;
