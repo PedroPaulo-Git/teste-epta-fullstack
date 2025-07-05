@@ -79,7 +79,7 @@ const DeleteVehicleModal: React.FC<Props> = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 p-3 rounded-xl font-semibold text-grayDefault-600 border-2 border-grayInputBorder-100 hover:bg-gray-50 transition"
+              className="flex-1 p-3 rounded-xl cursor-pointer  font-semibold text-grayDefault-600 border-2 border-grayInputBorder-100 hover:bg-gray-50 transition"
             >
               Cancelar
             </button>
@@ -88,7 +88,7 @@ const DeleteVehicleModal: React.FC<Props> = ({
               type="button"
               onClick={handleDelete}
               disabled={loading}
-              className="flex-1 p-3 rounded-xl font-semibold text-white transition shadow-[0_4px_15px_rgba(220,38,38,0.25)] bg-red-600 hover:bg-red-700 hover:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 p-3 cursor-pointer rounded-xl font-semibold text-white transition shadow-[0_4px_15px_rgba(220,38,38,0.25)] bg-red-600 hover:bg-red-700 hover:scale-98 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Deletando..." : "Deletar"}
             </button>

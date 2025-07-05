@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import VehicleModal from "../Modals/VehicleModal";
 import DeleteVehicleModal from "../Modals/DeleteVehicleModal";
+import EditVehicleModal from "../Modals/EditVehicleModal";
 import {
   CirclePlus,
   Pencil,
@@ -22,28 +23,62 @@ type Props = {
   fetchVehicles: () => void;
 };
 
+type ModalState = {
+  create: boolean;
+  edit: boolean;
+  archive:boolean;
+  delete: boolean;
+  selectedVehicle: Vehicle | null;
+  openDropdownId: string | null;
+};
 const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
-  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [modalState, setModalState] = useState<ModalState>({
+    create: false,
+    edit: false,
+    archive:false,
+    delete: false,
+    selectedVehicle: null,
+    openDropdownId: null,
+  });
 
-  const handleDeleteClick = (vehicle: Vehicle) => {
-    setSelectedVehicle(vehicle);
-    setDeleteModalOpen(true);
-    setOpenDropdownId(null); // Fecha o dropdown mobile
+  const openModal = (type: 'create' | 'edit' | 'archive' | 'delete', vehicle?: Vehicle) => {
+    setModalState({
+      create: type === 'create',
+      edit: type === 'edit',
+      archive: type === 'archive',
+      delete: type === 'delete',
+      selectedVehicle: vehicle || null,
+      openDropdownId: null,
+    });
   };
 
-  const handleDeleteSuccess = () => {
+  const closeModal = () => {
+    setModalState({
+      create: false,
+      edit: false,
+      archive:false,
+      delete: false,
+      selectedVehicle: null,
+      openDropdownId: null,
+    });
+  };
+
+  const handleSuccess = () => {
     fetchVehicles();
-    setDeleteModalOpen(false);
-    setSelectedVehicle(null);
+    closeModal();
+  };
+
+  const toggleDropdown = (vehicleId: string) => {
+    setModalState(prev => ({
+      ...prev,
+      openDropdownId: prev.openDropdownId === vehicleId ? null : vehicleId,
+    }));
   };
 
   return (
     <section className="mt-10 ">
       <button
-        onClick={() => setModalOpen(true)}
+        onClick={() => openModal('create')}
         className="bg-blueButton-100 text-white flex text-center gap-2 p-2 
       rounded-full hover:bg-blueButton-200 cursor-pointer hover:scale-98 transition"
       >
@@ -66,8 +101,6 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                     <th className="border-b pr-2 sm:pr-11 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
                       Status
                     </th>
-                    {/* <th className="border-b px-3 border-black/10 py-3 text-left text-sm font-medium uppercase tracking-wider text-neutralDashboard-100">
-            </th> */}
                   </tr>
                 </thead>
               </table>
@@ -94,7 +127,10 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                           </div>
 
                           <span className="hidden sm:flex items-center justify-end gap-3">
-                            <span className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
+                            <span className="bg-white shadow-sm w-8 h-8 
+                            flex items-center justify-center rounded-md"
+                            onClick={() => openModal('edit', vehicle)}
+                            >
                               <Pencil
                                 size={18}
                                 className="cursor-pointer text-black  hover:text-blue-600"
@@ -107,8 +143,9 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                               />
                             </span>
                             <span 
-                             onClick={() => handleDeleteClick(vehicle)}
-                             className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md">
+                              className="bg-white shadow-sm w-8 h-8 flex items-center justify-center rounded-md"
+                              onClick={() => openModal('delete', vehicle)}
+                            >
                               <Trash2
                                 size={18}
                                 className="cursor-pointer text-red-500  hover:text-red-800"
@@ -117,33 +154,36 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
                           </span>
 
                           {/* Para mobile */}
-                          <div className="sm:hidden relative">
+                          <div className="sm:hidden ">
                             <button
-                              onClick={() =>
-                                setOpenDropdownId(
-                                  openDropdownId === vehicle.id
-                                    ? null
-                                    : vehicle.id
-                                )
-                              }
-                              className="w-8 h-8 flex items-center justify-center rounded-md"
+                              onClick={() => toggleDropdown(vehicle.id)}
+                              className="w-8 h-8 flex items-center justify-center rounded-md cursor-pointer"
                             >
                               <MoreVertical size={18} className="text-black" />
                             </button>
 
-                            {openDropdownId === vehicle.id &&  (
+                            {modalState.openDropdownId === vehicle.id &&  (
                               <div className="absolute right-0 mt-2  bg-white shadow-lg rounded-md z-50 p-2 flex flex-col gap-2">
-                                <button className="flex items-center gap-2 text-sm text-black hover:text-blue-600">
+                                
+                                <div
+                                  className="absolute -top-2 right-4 transform rotate-45 w-4 h-4 bg-white shadow-xl z-50"
+                                  style={{ right: "calc(50% - 8px)" }}
+                                ></div>
+                                <button 
+                                  className="flex items-center cursor-pointer gap-2 text-sm text-black hover:text-blue-600"
+                                  onClick={() => openModal('edit', vehicle)}
+                                >
                                   <Pencil size={16} />
                                   Editar
                                 </button>
-                                <button className="flex items-center gap-2 text-sm text-black hover:text-yellow-600">
-                                  <Archive size={16} />
+                                <button className="flex items-center cursor-pointer gap-2 text-sm text-black hover:text-yellow-600">
+                                  <Archive size={16} 
+                                    onClick={() => openModal('archive', vehicle)} />
                                   Arquivar
                                 </button>
                                 <button 
-                                  className="flex items-center gap-2 text-sm text-red-500 hover:text-red-800"
-                                  onClick={() => handleDeleteClick(vehicle)}
+                                  className="flex items-center cursor-pointer gap-2 text-sm text-black hover:text-red-600"
+                                  onClick={() => openModal('delete', vehicle)}
                                 >
                                   <Trash2 size={16} />
                                   Deletar
@@ -162,22 +202,28 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles }: Props) => {
         </div>
       </div>
 
-      {modalOpen && (
+      {/* Modais */}
+      {modalState.create && (
         <VehicleModal
-          onClose={() => setModalOpen(false)}
-          onVehicleCreated={fetchVehicles}
+          onClose={closeModal}
+          onVehicleCreated={handleSuccess}
         />
       )}
 
-      {deleteModalOpen && selectedVehicle && (
+      {modalState.delete && modalState.selectedVehicle && (
         <DeleteVehicleModal
-          onClose={() => {
-            setDeleteModalOpen(false);
-            setSelectedVehicle(null);
-          }}
-          onVehicleDeleted={handleDeleteSuccess}
-          vehicleId={selectedVehicle.id}
-          vehicleName={selectedVehicle.model}
+          onClose={closeModal}
+          onVehicleDeleted={handleSuccess}
+          vehicleId={modalState.selectedVehicle.id}
+          vehicleName={modalState.selectedVehicle.model}
+        />
+      )}
+
+      {modalState.edit && modalState.selectedVehicle && (
+        <EditVehicleModal
+          onClose={closeModal}
+          onVehicleUpdated={handleSuccess}
+          vehicle={modalState.selectedVehicle}
         />
       )}
     </section>
