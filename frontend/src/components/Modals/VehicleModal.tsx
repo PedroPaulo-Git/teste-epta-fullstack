@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import api from "../../services/api";
 import { Car, X } from "lucide-react";
-import { Toast } from "../ui/Toast";
-import { ToastState } from "../../types";
+import NotificationToast from "../ui/NotificationToast";
+import { useNotificationToast } from "../../hooks/useNotificationToast";
 
 type Props = {
   onClose: () => void;
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const VehicleModal: React.FC<Props> = ({ onClose, onVehicleCreated }) => {
-  const [toast, setToast] = useState<ToastState>(null);
+  const { toast, showSuccess, showError, hideToast } = useNotificationToast();
   const [model, setModel] = useState("");
   const [plate, setPlate] = useState("");
 
@@ -38,34 +38,34 @@ const VehicleModal: React.FC<Props> = ({ onClose, onVehicleCreated }) => {
     try {
       await api.post("/api/vehicles", { model, plate });
       onVehicleCreated();
-      setToast({ type: "success", message: "Veículo cadastrado com sucesso!" });
+      showSuccess("Veículo cadastrado com sucesso!");
       setTimeout(() => {
         onClose();
       }, 1000);
     } catch (err) {
-     console.log(err) 
+      console.log(err);
       const error = err as any;
-  const errorMsg = error?.response?.data?.message?.toLowerCase();
-  const isPlateError =
-    errorMsg?.includes("placa") || plate.length < 8;
+      const errorMsg = error?.response?.data?.message?.toLowerCase();
+      const isPlateError = errorMsg?.includes("placa") || plate.length < 8;
 
-  if (isPlateError) {
-    setToast({
-      type: "error",
-      message: "Placa inválida. Verifique o formato: ABC-1D23.",
-    });
-  } else {
-    setToast({
-      type: "error",
-      message: "Erro ao cadastrar veículo. Tente novamente.",
-    });
-  }
+      if (isPlateError) {
+        showError("Placa inválida. Verifique o formato: ABC-1D23.");
+      } else {
+        showError("Erro ao cadastrar veículo. Tente novamente.");
+      }
     }
   };
   const isPlateValid = /^[A-Z]{3}-\d[A-Z]\d{2}$/.test(plate);
   const isModelValid = model.trim().length > 0;
   return (
     <div className="fixed poppins-regular inset-0 bg-black/50 flex items-center justify-center z-50 ">
+      <NotificationToast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
+
       <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md mx-auto relative">
         <button
           className="absolute cursor-pointer top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
@@ -125,13 +125,6 @@ const VehicleModal: React.FC<Props> = ({ onClose, onVehicleCreated }) => {
           </form>
         </div>
       </div>
-      {toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          onClose={() => setToast(null)}
-        />
-      )}
     </div>
   );
 };

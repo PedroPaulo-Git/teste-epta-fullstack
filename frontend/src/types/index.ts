@@ -116,6 +116,7 @@ export type FilterState = {
   sortBy: "name" | "status";                    // Critério de ordenação
   statusFilter: "all" | "active" | "inactive";  // Filtro por status
   isOpen: boolean;                              // Dropdown de filtro aberto
+  searchTerm: string;                           // Termo de pesquisa
 };
 
 // ============================================================================

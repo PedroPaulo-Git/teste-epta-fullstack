@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
 import { User, X, Loader2 } from "lucide-react";
-import { Toast } from "../ui/Toast";
-import { ToastState } from "../../types";
+import NotificationToast from "../ui/NotificationToast";
+import { useNotificationToast } from "../../hooks/useNotificationToast";
 
 type Props = {
   onClose: () => void;
@@ -15,8 +15,8 @@ const HeaderModalUserEdit: React.FC<Props> = ({
   onUserUpdated,
   currentName,
 }) => {
+  const { toast, showSuccess, showError, hideToast } = useNotificationToast();
   const [newName, setNewName] = useState(currentName);
-  const [toast, setToast] = useState<ToastState>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -25,20 +25,13 @@ const HeaderModalUserEdit: React.FC<Props> = ({
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!newName.trim()) {
-      setToast({
-        type: "error",
-        message: "Nome não pode estar vazio",
-      });
+      showError("Nome não pode estar vazio");
       return;
     }
 
     if (newName.trim() === currentName) {
-      setToast({
-        type: "error",
-        message: "Nome deve ser diferente do atual",
-      });
+      showError("Nome deve ser diferente do atual");
       return;
     }
 
@@ -46,32 +39,27 @@ const HeaderModalUserEdit: React.FC<Props> = ({
     try {
       await api.put("/auth/profile", { name: newName.trim() });
 
-      setToast({
-        type: "success",
-        message: "Nome atualizado com sucesso!",
-      });
-
       onUserUpdated();
-
+      showSuccess("Perfil atualizado com sucesso!");
       setTimeout(() => {
         onClose();
       }, 1000);
     } catch (error: any) {
-      console.error("Erro ao atualizar perfil:", error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        "Erro ao atualizar nome. Tente novamente.";
-      setToast({
-        type: "error",
-        message: errorMessage,
-      });
+      showError("Erro ao atualizar nome. Tente novamente.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed poppins-regular inset-0 bg-black/50 flex items-center justify-center z-50">
+      <NotificationToast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
+
       <div className="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md mx-auto relative">
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
@@ -129,14 +117,6 @@ const HeaderModalUserEdit: React.FC<Props> = ({
           </form>
         </div>
       </div>
-
-      {toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          onClose={() => setToast(null)}
-        />
-      )}
     </div>
   );
 };

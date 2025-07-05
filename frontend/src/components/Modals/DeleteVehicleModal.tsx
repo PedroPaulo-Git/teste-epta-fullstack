@@ -1,41 +1,38 @@
 import React, { useState } from "react";
 import api from "../../services/api";
 import { Trash2, X, AlertTriangle } from "lucide-react";
-import { Toast } from "../ui/Toast";
-import { ToastState } from "../../types";
+import { Vehicle } from "../../types";
+import NotificationToast from "../ui/NotificationToast";
+import { useNotificationToast } from "../../hooks/useNotificationToast";
 
 type Props = {
+  vehicle: Vehicle;
   onClose: () => void;
   onVehicleDeleted: () => void;
   vehicleId: string;
   vehicleName: string;
 };
 
-const DeleteVehicleModal: React.FC<Props> = ({ 
-  onClose, 
-  onVehicleDeleted, 
-  vehicleId, 
-  vehicleName 
+const DeleteVehicleModal: React.FC<Props> = ({
+  vehicleName,
+  vehicle,
+  onClose,
+  onVehicleDeleted,
 }) => {
-  const [toast, setToast] = useState<ToastState>(null);
+  const { toast, showSuccess, showError, hideToast } = useNotificationToast();
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await api.delete(`/api/vehicles/${vehicleId}`);
+      await api.delete(`/api/vehicles/${vehicle.id}`);
       onVehicleDeleted();
-      setToast({ type: "success", message: "Veículo deletado com sucesso!" });
+      showSuccess("Veículo excluído com sucesso!");
       setTimeout(() => {
         onClose();
       }, 1000);
     } catch (err) {
-      setToast({
-        type: "error",
-        message: "Erro ao deletar veículo. Tente novamente.",
-      });
-    } finally {
-      setLoading(false);
+      showError("Erro ao excluir veículo. Tente novamente.");
     }
   };
 
@@ -48,23 +45,23 @@ const DeleteVehicleModal: React.FC<Props> = ({
         >
           <X size={16} />
         </button>
-        
+
         <div className="flex flex-col items-center text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className="bg-red-100 p-3 rounded-full">
               <Trash2 size={40} className="text-red-600" />
             </div>
           </div>
-          
+
           <h2 className="font-extrabold text-xl text-center mb-2">
             Deletar Veículo
           </h2>
-          
+
           <div className="flex items-center gap-2 mb-6 text-yellow-600">
             <AlertTriangle size={20} />
             <p className="text-sm font-medium">Ação irreversível</p>
           </div>
-          
+
           <p className="text-grayDefault-600 mb-6">
             Tem certeza que deseja deletar o veículo{" "}
             <span className="font-semibold text-grayDefault-800">
@@ -72,7 +69,7 @@ const DeleteVehicleModal: React.FC<Props> = ({
             </span>
             ? Esta ação não pode ser desfeita.
           </p>
-          
+
           <div className="flex gap-3 w-full">
             <button
               type="button"
@@ -81,7 +78,7 @@ const DeleteVehicleModal: React.FC<Props> = ({
             >
               Cancelar
             </button>
-            
+
             <button
               type="button"
               onClick={handleDelete}
@@ -93,16 +90,8 @@ const DeleteVehicleModal: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      
-      {toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          onClose={() => setToast(null)}
-        />
-      )}
     </div>
   );
 };
 
-export default DeleteVehicleModal; 
+export default DeleteVehicleModal;

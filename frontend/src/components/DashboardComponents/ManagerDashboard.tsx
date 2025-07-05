@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import HeaderManager from "./shared/HeaderManager";
 import VehicleTableDashboard from "./VehicleTableDashboard";
@@ -6,7 +6,7 @@ import api from "@/services/api";
 import { Vehicle } from "@/types";
 
 const ManagerDashboard = () => {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);    
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const ativos = vehicles.filter((v) => v.status === "active").length;
   const inativos = vehicles.filter((v) => v.status === "inactive").length;
@@ -28,7 +28,6 @@ const ManagerDashboard = () => {
   useEffect(() => {
     fetchVehicles();
   }, []);
-
 
   return (
     <section className="w-full p-8">
