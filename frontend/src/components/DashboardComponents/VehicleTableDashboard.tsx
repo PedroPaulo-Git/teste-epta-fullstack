@@ -337,7 +337,8 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
             placeholder="Pesquisar por nome ou placa..."
             value={filterState.searchTerm}
             onChange={handleSearchChange}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blueButton-100 focus:border-blueButton-100 sm:text-sm"
+            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white 
+            placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blueButton-100 focus:border-blueButton-100 sm:text-sm"
           />
         </div>
       {/* Contador de resultados */}
@@ -422,13 +423,13 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
                             index % 2 === 0 ? "bg-white/90  " : "bg-white "
                           }
                         >
-                          <td className="whitespace-normal px-2 sm:px-6 py-4 text-sm text-black border-b border-black/10 min-w-20  ">
+                          <td className="whitespace-normal px-2 sm:px-6 py-4 text-sm text-black border-b border-black/10 min-w-20 xl:min-w-[300px] 2xl:min-w-[400px]  ">
                             {vehicle.model}
                           </td>
-                          <td className="whitespace-nowrap pr-2 sm:px-6 py-4 text-sm text-black  border-b border-black/10 ">
+                          <td className="whitespace-nowrap pr-2 sm:px-6 py-4 text-sm text-black  border-b border-black/10 xl:min-w-[300px] 2xl:min-w-[400px] ">
                             {vehicle.plate}
                           </td>
-                          <td className="flex justify-between whitespace-nowrap sm:px-6 py-4 text-sm text-black  border-b border-black/10  ">
+                          <td className="flex justify-between whitespace-nowrap sm:px-6 py-4 text-sm text-black  border-b border-black/10  xl:min-w-[300px] 2xl:min-w-[400px] ">
                             <div className="flex items-center gap-2">
                               <span
                                 className={`block w-2 h-2 rounded-full ${
