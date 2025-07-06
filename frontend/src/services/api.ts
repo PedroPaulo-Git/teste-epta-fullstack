@@ -1,12 +1,10 @@
 import axios from "axios";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-if (!API_BASE_URL) {
-  console.warn("NEXT_PUBLIC_API_URL não está definida. Verifique suas variáveis de ambiente.");
-}
-//se nao conseguir pegar a url do .env faz fetch no localhost
+// usando url do backend direto sem .env, usar 'http://localhost:5000/' para desenvolvimento
+console.log("🔧 ENV TEST:", process.env.NEXT_PUBLIC_API_URL);
 const api = axios.create({
-  baseURL: API_BASE_URL || 'http://localhost:5000/',
+  // baseURL: API_BASE_URL || 'http://localhost:5000/',
+  baseURL: 'https://teste-epta-fullstack-backend.up.railway.app/',
 });
 
 // interceptor adiciona token automaticamente
