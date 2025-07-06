@@ -88,7 +88,7 @@ const AuthRegisterPage = () => {
       
       <section className="bg-grayDefault-100 flex flex-col-reverse justify-end mx-auto w-full md:w-auto md:grid md:grid-cols-2 rounded-4xl">
         <div className="bg-blueButton-100 md:rounded-r-4xl h-4 md:h-auto block md:hidden"></div>
-        <div className="sm:min-w-80 flex flex-col my-auto text-center p-10 md:p-16 xl:p-0 xl:mx-14 xl:py-24">
+        <div className="sm:min-w-80 flex flex-col my-auto text-center p-12  md:mx-10 lg:p-12 ">
           <div>
             <Image
               width={100}
@@ -98,7 +98,7 @@ const AuthRegisterPage = () => {
               className="mx-auto mb-2 w-[157px] h-[44px]"
             />
             <p className="text-grayDefault-600">
-              Crie sua conta! Insira seus dados.
+            Crie sua conta agora! Insira seus dados.
             </p>
           </div>
           <form onSubmit={handleRegisterSubmitForm} className="mt-6 gap-5 flex flex-col poppins-regular">

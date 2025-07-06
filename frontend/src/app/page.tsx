@@ -50,7 +50,7 @@ export default function Home() {
       >
         <div className="bg-blueButton-100 md:rounded-r-4xl h-4 md:h-auto block md:hidden"></div>
 
-        <div className="sm:max-w-80 mx-auto flex flex-col my-auto text-center p-4 md:p-10 xl:px-0 xl:py-20 ">
+        <div className="sm:max-w-80 mx-auto flex flex-col my-auto text-center p-4 md:p-10 md:py-20 xl:px-0 ">
           <div className="">
             <Image
               width={100}
@@ -79,7 +79,7 @@ export default function Home() {
 
             <Link
               href="/register"
-              className="cursor-pointer w-full p-2 rounded-xl font-semibold 
+              className="cursor-pointer w-full p-2.5 rounded-xl font-semibold 
               text-blueButton-100 transition border-2 border-blueButton-100 
               hover:bg-blueButton-100 hover:text-white hover:scale-98 text-center"
             >
@@ -96,7 +96,7 @@ export default function Home() {
           className="bg-blueButton-100 rounded-b-4xl md:rounded-bl-none md:rounded-r-4xl 
          flex items-center justify-center md:min-h-[200px] lg:min-h-0"
         >
-          <div className="text-center text-white p-8">
+          <div className="text-center text-white p-4">
             <h2 className="text-xl lg:text-2xl font-bold mb-4">
               Sistema Completo
             </h2>

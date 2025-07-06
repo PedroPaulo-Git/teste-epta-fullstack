@@ -88,7 +88,7 @@ const AuthPage = () => {
       
       <section className="bg-grayDefault-100 flex flex-col-reverse justify-end mx-auto w-full md:w-auto md:grid md:grid-cols-2 rounded-4xl">
         <div className="bg-blueButton-100 md:rounded-r-4xl h-4 md:h-auto block md:hidden"></div>
-        <div className="flex flex-col my-auto text-center p-10 md:p-16 xl:px-28 xl:py-24">
+        <div className="flex flex-col my-auto text-center p-12 xl:px-20 xl:py-12">
           <div>
             <Image
               width={100}
@@ -103,7 +103,7 @@ const AuthPage = () => {
           </div>
           <form
             onSubmit={handleLoginSubmitForm}
-            className="mt-6 gap-5 flex flex-col poppins-regular"
+            className="mt-8 gap-5 flex flex-col poppins-regular"
           >
             <span className="flex flex-col text-left">
               <label className="text-grayInputText-400 font-medium" htmlFor="email">
@@ -146,7 +146,7 @@ const AuthPage = () => {
               {loading ? <Loader2 className="animate-spin mx-auto" size={20} /> : "Entrar"}
             </button>
             
-            <p className="text-xs mt-28">
+            <p className="text-xs mt-20 ">
               Não tem uma conta?{" "}
               <a href="/register" className="text-blueButton-100 font-semibold">
                 Cadastre-se gratuitamente!
