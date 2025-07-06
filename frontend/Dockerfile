@@ -24,4 +24,7 @@ COPY . .
 EXPOSE 3000
 
 # Comando padrão (desenvolvimento)
-CMD ["npm", "run", "dev"] 
+#CMD ["npm", "run", "dev"] 
+
+# comando para produção
+CMD ["npm", "start"]
