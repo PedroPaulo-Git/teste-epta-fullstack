@@ -163,16 +163,15 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
   };
 
   return (
-    <section className="mt-10 ">
+    <section className="mt-4 xl:mt-6 ">
       <div className=" flex flex-col sm:flex-row items-center gap-3 mb-4 ">
-  
-        <div className=" flex gap-3 w-full sm:w-auto">
+        <div className=" flex gap-3 w-full sm:w-auto mb-auto">
           <button
             onClick={() => openModal("create")}
-            className="w-64 sm:w-auto  bg-blueButton-100 text-white flex text-center items-center gap-2 p-2 
+            className="w-64 whitespace-nowrap text-sm xl:text-md sm:w-auto  bg-blueButton-100 text-white flex text-center items-center gap-2 p-2 
         rounded-full hover:bg-blueButton-200 cursor-pointer hover:scale-98 transition"
           >
-            <CirclePlus />
+            <CirclePlus className="w-5" />
             Cadastrar Veículo
           </button>
           <div className="relative" ref={filterDropdownRef}>
@@ -188,167 +187,173 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
               title="Filtrar veículos"
             >
               <Filter size={16} />
-              <span className=" text-sm font-medium">Filtrar</span>
+              <span className=" text-sm xl:text-md font-medium">Filtrar</span>
             </button>
 
             {/* Filtro */}
             {filterState.isOpen && (
               <div className="absolute top-full right-0 sm:left-0 mt-2 w-56 bg-white shadow-xl rounded-md z-50 p-2 flex flex-col gap-2">
-              {/* Ordenação */}
-              <div className="p-3">
-                <h5 className="text-xs font-medium text-gray-500 mb-2">
-                  Ordenar por
-                </h5>
-                <div className="space-y-1">
-                  <div
-                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
-                      filterState.sortBy === "name"
-                        ? "bg-blue-50 text-blueButton-100"
-                        : "hover:bg-gray-50 text-gray-700"
-                    }`}
-                    onClick={() =>
-                      setFilterState((prev) => ({ ...prev, sortBy: "name" }))
-                    }
-                  >
+                {/* Ordenação */}
+                <div className="p-3">
+                  <h5 className="text-xs font-medium text-gray-500 mb-2">
+                    Ordenar por
+                  </h5>
+                  <div className="space-y-1">
                     <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
                         filterState.sortBy === "name"
-                          ? "border-blueButton-100 bg-blueButton-100"
-                          : "border-gray-300"
+                          ? "bg-blue-50 text-blueButton-100"
+                          : "hover:bg-gray-50 text-gray-700"
                       }`}
-                    ></div>
-                    <span className="text-sm font-medium">Nome (A-Z)</span>
-                  </div>
+                      onClick={() =>
+                        setFilterState((prev) => ({ ...prev, sortBy: "name" }))
+                      }
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                          filterState.sortBy === "name"
+                            ? "border-blueButton-100 bg-blueButton-100"
+                            : "border-gray-300"
+                        }`}
+                      ></div>
+                      <span className="text-sm font-medium">Nome (A-Z)</span>
+                    </div>
 
-                  <div
-                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
-                      filterState.sortBy === "status"
-                        ? "bg-blue-50 text-blueButton-100"
-                        : "hover:bg-gray-50 text-gray-700"
-                    }`}
-                    onClick={() =>
-                      setFilterState((prev) => ({ ...prev, sortBy: "status" }))
-                    }
-                  >
                     <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
                         filterState.sortBy === "status"
-                          ? "border-blueButton-100 bg-blueButton-100"
-                          : "border-gray-300"
+                          ? "bg-blue-50 text-blueButton-100"
+                          : "hover:bg-gray-50 text-gray-700"
                       }`}
-                    ></div>
-                    <span className="text-sm font-medium">Status</span>
+                      onClick={() =>
+                        setFilterState((prev) => ({
+                          ...prev,
+                          sortBy: "status",
+                        }))
+                      }
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                          filterState.sortBy === "status"
+                            ? "border-blueButton-100 bg-blueButton-100"
+                            : "border-gray-300"
+                        }`}
+                      ></div>
+                      <span className="text-sm font-medium">Status</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Filtro por Status */}
-              <div className="p-3 pt-0">
-                <h5 className="text-xs font-medium text-gray-500 mb-2">
-                  Filtrar por status
-                </h5>
-                <div className="space-y-1">
-                  <div
-                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
-                      filterState.statusFilter === "all"
-                        ? "bg-blue-50 text-blueButton-100"
-                        : "hover:bg-gray-50 text-gray-700"
-                    }`}
-                    onClick={() =>
-                      setFilterState((prev) => ({
-                        ...prev,
-                        statusFilter: "all",
-                      }))
-                    }
-                  >
+                {/* Filtro por Status */}
+                <div className="p-3 pt-0">
+                  <h5 className="text-xs font-medium text-gray-500 mb-2">
+                    Filtrar por status
+                  </h5>
+                  <div className="space-y-1">
                     <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                      className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
                         filterState.statusFilter === "all"
-                          ? "border-blueButton-100 bg-blueButton-100"
-                          : "border-gray-300"
+                          ? "bg-blue-50 text-blueButton-100"
+                          : "hover:bg-gray-50 text-gray-700"
                       }`}
-                    ></div>
-                    <span className="text-sm font-medium">Todos</span>
-                  </div>
-
-                  <div
-                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
-                      filterState.statusFilter === "active"
-                        ? "bg-green-50 text-greenCircleVehicleActive-100"
-                        : "hover:bg-gray-50 text-gray-700"
-                    }`}
-                    onClick={() =>
-                      setFilterState((prev) => ({
-                        ...prev,
-                        statusFilter: "active",
-                      }))
-                    }
-                  >
-                    <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                        filterState.statusFilter === "active"
-                          ? "border-2 border-greenCircleVehicleActive-100 bg-greenCircleVehicleActive-100"
-                          : "border-gray-300"
-                      }`}
-                    ></div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium">Ativos</span>
+                      onClick={() =>
+                        setFilterState((prev) => ({
+                          ...prev,
+                          statusFilter: "all",
+                        }))
+                      }
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                          filterState.statusFilter === "all"
+                            ? "border-blueButton-100 bg-blueButton-100"
+                            : "border-gray-300"
+                        }`}
+                      ></div>
+                      <span className="text-sm font-medium">Todos</span>
                     </div>
-                  </div>
 
-                  <div
-                    className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
-                      filterState.statusFilter === "inactive"
-                        ? "bg-yellow-50 text-YellowCircleVehicleInactive-100"
-                        : "hover:bg-gray-50 text-gray-700"
-                    }`}
-                    onClick={() =>
-                      setFilterState((prev) => ({
-                        ...prev,
-                        statusFilter: "inactive",
-                      }))
-                    }
-                  >
                     <div
-                      className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                        filterState.statusFilter === "inactive"
-                          ? "border-YellowCircleVehicleInactive-100 bg-YellowCircleVehicleInactive-100"
-                          : "border-gray-300"
+                      className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
+                        filterState.statusFilter === "active"
+                          ? "bg-green-50 text-greenCircleVehicleActive-100"
+                          : "hover:bg-gray-50 text-gray-700"
                       }`}
-                    ></div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium">Inativos</span>
+                      onClick={() =>
+                        setFilterState((prev) => ({
+                          ...prev,
+                          statusFilter: "active",
+                        }))
+                      }
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                          filterState.statusFilter === "active"
+                            ? "border-2 border-greenCircleVehicleActive-100 bg-greenCircleVehicleActive-100"
+                            : "border-gray-300"
+                        }`}
+                      ></div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">Ativos</span>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-all ${
+                        filterState.statusFilter === "inactive"
+                          ? "bg-yellow-50 text-YellowCircleVehicleInactive-100"
+                          : "hover:bg-gray-50 text-gray-700"
+                      }`}
+                      onClick={() =>
+                        setFilterState((prev) => ({
+                          ...prev,
+                          statusFilter: "inactive",
+                        }))
+                      }
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                          filterState.statusFilter === "inactive"
+                            ? "border-YellowCircleVehicleInactive-100 bg-YellowCircleVehicleInactive-100"
+                            : "border-gray-300"
+                        }`}
+                      ></div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">Inativos</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            )}
+          </div>
+        </div>
+
+        <div>
+          {/* Campo de Pesquisa */}
+          <div className="relative flex-1 max-w-md w-full">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              placeholder="Pesquisar por nome ou placa..."
+              value={filterState.searchTerm}
+              onChange={handleSearchChange}
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white 
+            placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blueButton-100 focus:border-blueButton-100 sm:text-sm"
+            />
+          </div>
+          {/* Contador de resultados */}
+          {filterState.searchTerm && (
+            <div className=" mt-2 text-sm text-gray-600 text-center sm:text-left ">
+              {filteredVehicles.length === 1
+                ? `1 veículo encontrado para "${filterState.searchTerm}"`
+                : `${filteredVehicles.length} veículos encontrados para "${filterState.searchTerm}"`}
             </div>
           )}
-          </div>
         </div>
       </div>
-      {/* Campo de Pesquisa */}
-      <div className="relative flex-1 max-w-md w-full">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-4 w-4 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Pesquisar por nome ou placa..."
-            value={filterState.searchTerm}
-            onChange={handleSearchChange}
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white 
-            placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blueButton-100 focus:border-blueButton-100 sm:text-sm"
-          />
-        </div>
-      {/* Contador de resultados */}
-      {filterState.searchTerm && (
-        <div className="mb-4 mt-2 text-sm text-gray-600 text-center sm:text-left ">
-          {filteredVehicles.length === 1
-            ? `1 veículo encontrado para "${filterState.searchTerm}"`
-            : `${filteredVehicles.length} veículos encontrados para "${filterState.searchTerm}"`}
-        </div>
-      )}
 
       <div className="mt-4 rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
