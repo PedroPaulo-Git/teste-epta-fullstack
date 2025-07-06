@@ -19,8 +19,13 @@ export const useAuth = () => {
     try {
       const response = await api.get('/auth/user');
       setUser(response.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao buscar dados do usuário:', error);
+      // Se der erro de autenticação, limpar dados do usuário
+      if (error.response?.status === 401) {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
     }
   };
 
@@ -55,7 +60,7 @@ export const useAuth = () => {
     };
 
     validateToken();
-  }, [router]);
+  }, []);
 
   const handleLogout = () => {
     logout();

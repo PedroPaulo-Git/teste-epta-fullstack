@@ -5,7 +5,7 @@ const API_BASE_URL = isDevLocal
   ? "http://localhost:5000/"
   : "https://teste-epta-fullstack-backend.up.railway.app/";
 
-console.log("🔧 Base URL da API:", API_BASE_URL);
+// console.log("🔧 Base URL da API:", API_BASE_URL);
 const api = axios.create({
   baseURL: API_BASE_URL,
 });

@@ -4,6 +4,16 @@ Aplicação fullstack desenvolvida como parte do teste técnico para vaga de des
 
 Gerencie veículos com autenticação JWT, dashboard intuitivo e operações completas de CRUD com uma experiência de usuário moderna e responsiva.
 
+## 🌐 **APLICAÇÃO EM PRODUÇÃO**
+
+**🚀 Deploy concluído e funcionando na Railway!**
+
+**🔗 Link da aplicação:** [https://teste-epta-fullstack-frontend.up.railway.app/dashboard](https://teste-epta-fullstack-frontend.up.railway.app/dashboard)
+
+**✅ Status:** Online e funcionando em produção
+**📱 Responsivo:** Funciona perfeitamente em desktop, tablet e mobile
+**🔒 Seguro:** Autenticação JWT implementada e funcionando
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
@@ -227,65 +237,153 @@ Gerencie veículos com autenticação JWT, dashboard intuitivo e operações com
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🚀 Como Executar o Projeto Localmente
 
-### 🐳 **Com Docker (Recomendado)**
+### 📋 **Pré-requisitos**
+
+- **Node.js** (versão 18 ou superior)
+- **npm** ou **yarn**
+- **PostgreSQL** (para instalação manual)
+- **Docker** e **Docker Compose** (para execução com Docker)
+
+### 🐳 **Opção 1: Com Docker (Recomendado)**
+
+A forma mais simples e rápida de executar o projeto:
 
 ```bash
-# Clone o repositório
+# 1. Clone o repositório
 git clone https://github.com/seu-usuario/projeto-veiculos.git
 
-# Acesse a pasta do projeto
+# 2. Acesse a pasta do projeto
 cd projeto-veiculos
 
-# Execute com Docker Compose
+# 3. Execute com Docker Compose
 docker-compose up --build
 
-# Acesse a aplicação
+# 4. Acesse a aplicação
 # Frontend: http://localhost:3000
 # Backend: http://localhost:5000
 ```
 
+**✅ Vantagens do Docker:**
+- Não precisa instalar PostgreSQL localmente
+- Ambiente isolado e reproduzível
+- Configuração automática do banco de dados
+- Funciona igual em qualquer sistema operacional
+
 📖 **Documentação Docker completa**: [DOCKER.md](./DOCKER.md)
 
-### 🔧 **Instalação Manual**
+### 🔧 **Opção 2: Instalação Manual**
 
-#### Backend
+Para desenvolvimento local sem Docker:
+
+#### **Passo 1: Configurar o Backend**
 
 ```bash
-# Acesse a pasta do backend
+# 1. Acesse a pasta do backend
 cd backend
 
-# Instale as dependências
+# 2. Instale as dependências
 npm install
 
-# Configure as variáveis de ambiente
+# 3. Configure as variáveis de ambiente
+# Crie um arquivo .env baseado no .env.example
 cp .env.example .env
-# Edite o arquivo .env com suas configurações
 
-# Execute as migrações do banco
+# 4. Edite o arquivo .env com suas configurações:
+# DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco"
+# JWT_SECRET="sua_chave_secreta_aqui"
+
+# 5. Execute as migrações do banco
 npx prisma migrate dev
 
-# Inicie o servidor de desenvolvimento
+# 6. Inicie o servidor de desenvolvimento
 npm run server
 ```
 
-#### Frontend
+**🎯 Comando de desenvolvimento do backend:** `npm run server`
+
+#### **Passo 2: Configurar o Frontend**
 
 ```bash
-# Entre na pasta frontend
+# 1. Abra um novo terminal e entre na pasta frontend
 cd frontend
 
-# Instale as dependências
+# 2. Instale as dependências
 npm install
 
-# Configure as variáveis de ambiente
+# 3. Configure as variáveis de ambiente
+# Crie um arquivo .env.local baseado no .env.local.example
 cp .env.local.example .env.local
-# Edite o arquivo .env.local com a URL do backend
 
-# Execute o servidor de desenvolvimento
+# 4. Edite o arquivo .env.local:
+# NEXT_PUBLIC_API_URL=http://localhost:5000
+
+# 5. Execute o servidor de desenvolvimento
 npm run dev
 ```
+
+**🎯 Comando de desenvolvimento do frontend:** `npm run dev`
+
+### 🌐 **Acessando a Aplicação**
+
+Após executar os comandos acima:
+
+- **Frontend:** http://localhost:3000
+- **Backend:** http://localhost:5000
+- **Dashboard:** http://localhost:3000/dashboard (após fazer login)
+
+### 🔍 **Verificando se está funcionando**
+
+1. **Backend:** Acesse http://localhost:5000 - deve mostrar uma mensagem de API funcionando
+2. **Frontend:** Acesse http://localhost:3000 - deve carregar a página inicial
+3. **Login:** Use as credenciais de teste ou crie uma nova conta
+
+### 🛠️ **Comandos Úteis**
+
+```bash
+# Backend
+npm run server         # Inicia servidor de desenvolvimento
+npm run build          # Build para produção
+npx prisma studio      # Interface visual do banco de dados
+
+# Frontend  
+npm run dev            # Inicia servidor de desenvolvimento
+npm run build          # Build para produção
+npm run lint           # Verifica código com ESLint
+```
+
+---
+
+## 🚀 **Deploy em Produção**
+
+### ☁️ **Railway - Plataforma de Deploy**
+
+O projeto está configurado para deploy automático na **Railway**:
+
+- **Frontend:** Deploy automático via GitHub
+- **Backend:** Deploy automático via GitHub  
+- **Banco de Dados:** PostgreSQL gerenciado pela Railway
+- **Domínio:** HTTPS automático e customizado
+
+### 🔧 **Configuração de Deploy**
+
+Para fazer deploy na Railway:
+
+1. **Conecte seu repositório** na Railway
+2. **Configure as variáveis de ambiente:**
+   - `DATABASE_URL` (PostgreSQL)
+   - `JWT_SECRET` (Chave secreta para JWT)
+   - `NEXT_PUBLIC_API_URL` (URL do backend em produção)
+3. **Deploy automático** a cada push para main
+
+### 📊 **Status de Produção**
+
+- ✅ **Frontend:** Online em https://teste-epta-fullstack-frontend.up.railway.app
+- ✅ **Backend:** Online e funcionando
+- ✅ **Banco de Dados:** PostgreSQL ativo
+- ✅ **Autenticação:** JWT funcionando
+- ✅ **Responsividade:** Testada em todos os dispositivos
 
 ---
 

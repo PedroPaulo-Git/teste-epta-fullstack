@@ -13,9 +13,9 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
   const { user, fetchUserData, isLoading } = useAuth();
 
   useEffect(() => {
-    // Buscar dados do usuário
+    // Buscar dados do usuário apenas uma vez ao montar o componente
     fetchUserData();
-  }, [fetchUserData]);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -93,7 +93,7 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
           </div>
         )}
         <div>
-          <h1 className="text-neutralDashboard-100 text-2xl xl:text-3xl 2xl:text-5xl md:font-normal mb-2 flex gap-2 items-center ">
+          <h1 className="text-neutralDashboard-100 text-3xl 2xl:text-5xl md:font-normal mb-2 flex gap-2 items-center ">
             Olá{" "}
             {isLoading ? (
               <span className="inline-block w-24 h-8 lg:w-48 lg:h-12 bg-gray-300 rounded animate-pulse"></span>

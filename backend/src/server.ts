@@ -16,7 +16,6 @@ if (RAILWAY_FRONTEND_URL) {
     allowedOrigins.push(RAILWAY_FRONTEND_URL);
 }
 
-console.log('Backend CORS - Allowed Origins:', allowedOrigins); 
 
 app.use(cors({
     origin: function (origin, callback) {

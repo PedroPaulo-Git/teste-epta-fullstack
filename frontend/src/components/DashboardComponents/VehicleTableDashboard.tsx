@@ -337,10 +337,10 @@ const VehicleTableDashboard = ({ vehicles, fetchVehicles, loading }: Props) => {
             </div>
             <input
               type="text"
-              placeholder="Pesquisar por nome ou placa..."
+              placeholder="Pesquisar por nome ou placa"
               value={filterState.searchTerm}
               onChange={handleSearchChange}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white 
+              className="block w-full pl-10 mr-16 sm:mr-10 py-2 border border-gray-300 rounded-lg leading-5 bg-white 
             placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blueButton-100 focus:border-blueButton-100 sm:text-sm"
             />
           </div>
