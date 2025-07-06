@@ -61,13 +61,14 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
             alt=""
             width={25}
             height={25}
+            className="w-6 2xl:w-8"
           />
           <Image
             src="/assets/DashboardArrowDown.svg"
             alt=""
             width={15}
             height={15}
-            className={`transition-transform duration-200 ${
+            className={`transition-transform duration-200 w-3 2xl:w-4 ${
               isOpen ? "rotate-180" : ""
             }`}
           />
@@ -92,7 +93,7 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
           </div>
         )}
         <div>
-          <h1 className="text-neutralDashboard-100 text-3xl md:text-5xl md:font-normal mb-2 flex gap-2 items-center ">
+          <h1 className="text-neutralDashboard-100 text-2xl xl:text-3xl 2xl:text-5xl md:font-normal mb-2 flex gap-2 items-center ">
             Olá{" "}
             {isLoading ? (
               <span className="inline-block w-24 h-8 lg:w-48 lg:h-12 bg-gray-300 rounded animate-pulse"></span>
@@ -101,31 +102,33 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
             )}
             ,
           </h1>
-          <h2 className="text-neutralDashboard-700 sm:text-2xl md:font-normal">
+          <h2 className="text-neutralDashboard-700 2xl:text-2xl md:font-normal">
             Cadastre e gerencie seus veículos
           </h2>
         </div>
-        <div className="grid md:grid-cols-3  gap-10 md:w-5/6 2xl:w-2/3 mt-10">
-          <span className="flex items-center shadow-md p-6 gap-4 rounded-md hover:scale-101 hover:shadow-lg transition">
-            <div className="bg-graySecondary-300 w-14 h-14 flex items-center text-center justify-center rounded-full">
+        <div className="grid md:grid-cols-3  gap-10 md:w-5/6 2xl:w-2/3 mt-4 xl:mt-4 2xl:mt-10">
+          <span className="flex items-center shadow-md p-2 xl:p-2 xl:pl-3 2xl:p-4 gap-4 rounded-md hover:scale-101 hover:shadow-lg transition">
+            <div className="bg-graySecondary-300 w-8 h-8 xl:w-10 xl:h-10 2xl:w-14 2xl:h-14 flex items-center text-center justify-center rounded-full">
               <Image
                 src="/assets/DashboardRelatorioActive.svg"
+                className="w-6 xl:w-8 2xl:w-12"
                 alt="Logo"
                 width={40}
                 height={100}
               />
             </div>
             <div className="">
-              <p className="text-graySecondary-600 font-normal">Total</p>
-              <p className="text-darkgraySecondary-900 md:text-2xl">
+              <p className="text-graySecondary-600 font-normal text-sm xl:text-base 2xl:text-lg">Total</p>
+              <p className="text-darkgraySecondary-900 xl:text-xl 2xl:text-2xl ">
                 <strong>{total}</strong>
               </p>
             </div>
           </span>
-          <span className="flex items-center shadow-md p-6 gap-4 rounded-md hover:scale-101 hover:shadow-lg transition">
-            <div className="bg-graySecondary-300 w-14 h-14 flex items-center text-center justify-center rounded-full">
+          <span className="flex items-center shadow-md p-2 xl:p-2 xl:pl-3 2xl:p-4  gap-4 rounded-md hover:scale-101 hover:shadow-lg transition">
+            <div className="bg-graySecondary-300 w-8 h-8 xl:w-10 xl:h-10 2xl:w-14 2xl:h-14  flex items-center text-center justify-center rounded-full">
               <Image
                 src="/assets/DashboardCheckMark.svg"
+                className="w-6 xl:w-8 2xl:w-12"
                 alt=""
                 width={40}
                 height={100}
@@ -133,16 +136,17 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
             </div>
 
             <div className="">
-              <p className="text-graySecondary-600 font-normal">Ativos</p>
-              <p className="text-darkgraySecondary-900 md:text-2xl">
+              <p className="text-graySecondary-600 font-normal text-sm xl:text-base 2xl:text-lg ">Ativos</p>
+              <p className="text-darkgraySecondary-900 xl:text-xl 2xl:text-2xl ">
                 <strong>{ativos}</strong>
               </p>
             </div>
           </span>
-          <span className="flex items-center shadow-md p-6 gap-4 rounded-md hover:scale-101 hover:shadow-lg transition">
-            <div className="bg-graySecondary-300 w-14 h-14 flex items-center text-center justify-center rounded-full">
+          <span className="flex items-center shadow-md p-2 xl:p-2 xl:pl-3 2xl:p-4 gap-4 rounded-md hover:scale-101 hover:shadow-lg transition">
+            <div className="bg-graySecondary-300 w-8 h-8 xl:w-10 xl:h-10 2xl:w-14 2xl:h-14 flex items-center text-center justify-center rounded-full">
               <Image
                 src="/assets/DashboardUserYellow.svg"
+                   className="w-6 xl:w-8 2xl:w-12"
                 alt=""
                 width={40}
                 height={100}
@@ -150,8 +154,8 @@ const HeaderManager = ({ ativos, inativos, total }: HeaderManagerProps) => {
             </div>
 
             <div className="">
-              <p className="text-graySecondary-600 font-normal">inativos</p>
-              <p className="text-darkgraySecondary-900 md:text-2xl">
+              <p className="text-graySecondary-600 font-normal text-sm xl:text-base 2xl:text-lg">inativos</p>
+              <p className="text-darkgraySecondary-900 xl:text-xl 2xl:text-2xl">
                 <strong>{inativos}</strong>
               </p>
             </div>
