@@ -20,6 +20,8 @@ RUN npm ci
 # Copia o código fonte
 COPY . .
 
+RUN npm run build
+
 # Expõe a porta
 EXPOSE 3000
 
