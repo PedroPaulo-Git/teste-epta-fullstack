@@ -146,38 +146,3 @@ docker system prune -a
 # Limpar volumes
 docker volume prune
 ```
-
-## 📦 **Produção**
-
-Para produção, modifique os Dockerfiles:
-
-**Backend:**
-```dockerfile
-# Usar multi-stage build
-FROM node:18-alpine AS builder
-# ... build steps
-
-FROM node:18-alpine AS production
-# ... production setup
-```
-
-**Frontend:**
-```dockerfile
-# Build estático
-RUN npm run build
-CMD ["npm", "start"]
-```
-
-## 💡 **Dicas**
-
-- ✅ **Sempre use** `docker-compose up --build` na primeira vez
-- ✅ **Mantenha** os volumes para persistência de dados
-- ✅ **Use logs** para debug: `docker-compose logs -f`
-- ❌ **Não commite** arquivos `.env` com senhas
-- ❌ **Não use** `docker-compose down -v` sem backup
-
-## 🔗 **Links úteis**
-
-- [Docker Compose](https://docs.docker.com/compose/)
-- [PostgreSQL Docker](https://hub.docker.com/_/postgres)
-- [Node.js Docker](https://hub.docker.com/_/node) 

@@ -1,10 +1,13 @@
 import axios from "axios";
 
-// usando url do backend direto sem .env, usar 'http://localhost:5000/' para desenvolvimento
-console.log("🔧 ENV TEST:", process.env.NEXT_PUBLIC_API_URL);
+const isDevLocal = process.env.NODE_ENV === "development"; // se estiver rodando local em dev
+const API_BASE_URL = isDevLocal
+  ? "http://localhost:5000/"
+  : "https://teste-epta-fullstack-backend.up.railway.app/";
+
+console.log("🔧 Base URL da API:", API_BASE_URL);
 const api = axios.create({
-  // baseURL: API_BASE_URL || 'http://localhost:5000/',
-  baseURL: 'https://teste-epta-fullstack-backend.up.railway.app/',
+  baseURL: API_BASE_URL,
 });
 
 // interceptor adiciona token automaticamente
@@ -23,11 +26,12 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      const url = error.config?.url || '';
-      const isAuthRoute = url.includes('/auth/login') || url.includes('/auth/register');
-      
+      const url = error.config?.url || "";
+      const isAuthRoute =
+        url.includes("/auth/login") || url.includes("/auth/register");
+
       console.log("401 error on URL:", url, "isAuthRoute:", isAuthRoute);
-      
+
       if (!isAuthRoute) {
         // Token inválido ou expirado apenas para rotas protegidas
         if (typeof window !== "undefined") {
@@ -49,7 +53,7 @@ export const checkTokenValidity = async () => {
     if (!token) {
       return false;
     }
-    
+
     // req para verificar se o token é válido
     await api.get("/auth/verify");
     return true;

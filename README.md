@@ -26,7 +26,7 @@ Gerencie veículos com autenticação JWT, dashboard intuitivo e operações com
 - [bcrypt](https://github.com/dcodeIO/bcrypt.js/) - Hash seguro de senhas
 
 ### ☁️ Hospedagem / Deploy
-- **Frontend:** [Vercel](https://vercel.com/) - Deploy automático e otimizado
+- **Frontend:**  [Railway](https://railway.app/) - Deploy automático e otimizado
 - **Backend:** [Railway](https://railway.app/) - Plataforma serverless
 - **Banco de Dados:** Railway PostgreSQL
 
@@ -87,86 +87,142 @@ Gerencie veículos com autenticação JWT, dashboard intuitivo e operações com
 ### 🎯 Organização Frontend
 
 ```plaintext
-/frontend/src/
-├── app/                          # App Router do Next.js 13+
-│   ├── layout.tsx               # Layout principal da aplicação
-│   ├── page.tsx                 # Página inicial (apresentação)
-│   └── globals.css              # Estilos globais
-│
-├── components/                   # Componentes React organizados
-│   ├── Auth/                    # Componentes de autenticação
-│   │   ├── AuthLoginPage.tsx    # Página de login
-│   │   ├── AuthRegisterPage.tsx # Página de registro
-│   │   └── ProtectedRoute.tsx   # Rota protegida
+/frontend/
+├── src/
+│   ├── app/                          # App Router do Next.js 13+
+│   │   ├── layout.tsx               # Layout principal da aplicação
+│   │   ├── page.tsx                 # Página inicial (apresentação)
+│   │   ├── globals.css              # Estilos globais
+│   │   ├── favicon.ico              # Ícone da aplicação
+│   │   ├── login/                   # Página de login
+│   │   │   └── page.tsx
+│   │   ├── register/                # Página de registro
+│   │   │   └── page.tsx
+│   │   ├── dashboard/               # Dashboard principal
+│   │   │   └── page.tsx
+│   │   └── relatorio/               # Página de relatórios
+│   │       └── page.tsx
 │   │
-│   ├── DashboardComponents/     # Componentes do dashboard
-│   │   ├── ManagerDashboard.tsx # Dashboard principal
-│   │   ├── VehicleTableDashboard.tsx # Tabela de veículos
-│   │   ├── SidebarDashboard.tsx # Navegação lateral
-│   │   └── shared/              # Componentes compartilhados
-│   │       └── HeaderManager.tsx # Cabeçalho do dashboard
+│   ├── components/                   # Componentes React organizados
+│   │   ├── Auth/                    # Componentes de autenticação
+│   │   │   ├── AuthLoginPage.tsx    # Página de login
+│   │   │   ├── AuthRegisterPage.tsx # Página de registro
+│   │   │   └── ProtectedRoute.tsx   # Rota protegida
+│   │   │
+│   │   ├── DashboardComponents/     # Componentes do dashboard
+│   │   │   ├── ManagerDashboard.tsx # Dashboard principal
+│   │   │   ├── VehicleTableDashboard.tsx # Tabela de veículos
+│   │   │   ├── SidebarDashboard.tsx # Navegação lateral
+│   │   │   └── shared/              # Componentes compartilhados
+│   │   │       └── HeaderManager.tsx # Cabeçalho do dashboard
+│   │   │
+│   │   ├── Modals/                  # Modais interativos
+│   │   │   ├── VehicleModal.tsx     # Cadastro de veículo
+│   │   │   ├── EditVehicleModal.tsx # Edição com toggle switch
+│   │   │   ├── DeleteVehicleModal.tsx # Confirmação de exclusão
+│   │   │   ├── ArchiveVehicleModal.tsx # Arquivamento
+│   │   │   └── HeaderModalUserEdit.tsx # Cabeçalho de edição
+│   │   │
+│   │   └── ui/                      # Componentes de interface
+│   │       └── NotificationToast.tsx # Notificações toast
 │   │
-│   ├── Modals/                  # Modais interativos
-│   │   ├── VehicleModal.tsx     # Cadastro de veículo
-│   │   ├── EditVehicleModal.tsx # Edição com toggle switch
-│   │   ├── DeleteVehicleModal.tsx # Confirmação de exclusão
-│   │   └── ArchiveVehicleModal.tsx # Arquivamento
+│   ├── hooks/                       # Hooks customizados
+│   │   ├── useAuth.ts              # Gerenciamento de autenticação
+│   │   └── useNotificationToast.ts # Hook para notificações
 │   │
-│   └── ui/                      # Componentes de interface
-│       └── Toast.tsx            # Notificações toast
+│   ├── services/                    # Serviços e configurações
+│   │   ├── api.ts                  # Cliente Axios com interceptors
+│   │   ├── searchService.ts        # Serviço de pesquisa de veículos
+│   │   └── useAuthGuard.ts         # Guarda de rota
+│   │
+│   └── types/                       # Tipos TypeScript centralizados
+│       ├── index.ts                # Definições de tipos (Vehicle, User, etc.)
+│       └── README.md               # Documentação dos tipos
 │
-├── hooks/                       # Hooks customizados
-│   └── useAuth.ts              # Gerenciamento de autenticação
+├── public/                          # Arquivos estáticos
+│   ├── assets/                      # Imagens e ícones
+│   │   ├── DashboardArrowDown.svg
+│   │   ├── DashboardCheckMark.svg
+│   │   ├── DashboardIcon.svg
+│   │   ├── DashboardIconActive.svg
+│   │   ├── DashboardRelatorioActive.svg
+│   │   ├── DashboardUser.svg
+│   │   ├── DashboardUserYellow.svg
+│   │   ├── Logo.png
+│   │   └── Relatorio.svg
+│   ├── favicon.ico
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
 │
-├── services/                    # Serviços e configurações
-│   ├── api.ts                  # Cliente Axios com interceptors
-│   └── useAuthGuard.ts         # Guarda de rota
-│
-├── types/                       # Tipos TypeScript centralizados
-│   └── index.ts                # Definições de tipos (Vehicle, User, etc.)
-│
-└── pages/                       # Páginas legadas (se necessário)
-    ├── index.tsx               # Página de apresentação
-    └── dashboard.tsx           # Dashboard (redirecionamento)
+├── package.json                     # Dependências do frontend
+├── next.config.ts                   # Configuração do Next.js
+├── tsconfig.json                    # Configuração TypeScript
+├── postcss.config.mjs               # Configuração PostCSS
+├── eslint.config.mjs                # Configuração ESLint
+├── Dockerfile                       # Imagem Docker do frontend
+└── README.md                        # Documentação do frontend
 ```
 
 ### 🔧 Organização Backend
 
 ```plaintext
-/backend/src/
-├── controllers/                 # Controladores das rotas
-│   ├── authController.ts       # Autenticação e usuários
-│   └── vehicleController.ts    # CRUD de veículos
+/backend/
+├── src/
+│   ├── controllers/                 # Controladores das rotas
+│   │   ├── authController.ts       # Autenticação e usuários
+│   │   └── vehicleController.ts    # CRUD de veículos
+│   │
+│   ├── routes/                      # Definição das rotas
+│   │   ├── authRoutes.ts           # Rotas de autenticação
+│   │   └── vehicleRoutes.ts        # Rotas de veículos
+│   │
+│   ├── services/                    # Lógica de negócio
+│   │   ├── authService.ts          # Autenticação e JWT
+│   │   └── vehicleService.ts       # Operações de veículos
+│   │
+│   ├── middlewares/                 # Middlewares Express
+│   │   ├── authMiddleware.ts       # Verificação de JWT
+│   │   └── validationMiddleware.ts # Validação de dados
+│   │
+│   ├── schemas/                     # Validação com Zod
+│   │   ├── authSchemas.ts          # Schemas de autenticação
+│   │   ├── vehicleSchema.ts        # Schema de validação de veículos
+│   │   └── README.md               # Documentação dos schemas
+│   │
+│   ├── utils/                       # Utilitários (vazio atualmente)
+│   └── server.ts                   # Configuração do servidor Express
 │
-├── routes/                      # Definição das rotas
-│   ├── authRoutes.ts           # Rotas de autenticação
-│   └── vehicleRoutes.ts        # Rotas de veículos
+├── prisma/                          # Configuração do Prisma ORM
+│   ├── migrations/                  # Migrações do banco de dados
+│   │   ├── 20250703033017_init/
+│   │   │   └── migration.sql
+│   │   ├── 20250703222325_init_with_model_field/
+│   │   │   └── migration.sql
+│   │   ├── 20250704083643_add_user_name_field/
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   └── schema.prisma               # Schema do banco de dados
 │
-├── services/                    # Lógica de negócio
-│   ├── authService.ts          # Autenticação e JWT
-│   └── vehicleService.ts       # Operações de veículos
-│
-├── middlewares/                 # Middlewares Express
-│   └── authMiddleware.ts       # Verificação de JWT
-│
-├── schemas/                     # Validação com Zod
-│   └── vehicleSchema.ts        # Schema de validação de veículos
-│
-├── utils/                       # Utilitários (se necessário)
-└── server.ts                   # Configuração do servidor Express
+├── package.json                     # Dependências do backend
+├── tsconfig.json                    # Configuração TypeScript
+├── Dockerfile                       # Imagem Docker do backend
+└── .gitignore                       # Arquivos ignorados pelo Git
 ```
 
 ### 🐳 **Configuração Docker**
 
 ```plaintext
 /
-├── docker-compose.yml          # Orquestração dos serviços
-├── .dockerignore              # Arquivos ignorados pelo Docker
-├── DOCKER.md                  # Documentação Docker completa
+├── docker-compose.yml              # Orquestração dos serviços
+├── .dockerignore                   # Arquivos ignorados pelo Docker
+├── DOCKER.md                       # Documentação Docker completa
 ├── backend/
-│   └── Dockerfile             # Imagem do backend
+│   └── Dockerfile                  # Imagem do backend
 └── frontend/
-    └── Dockerfile             # Imagem do frontend
+    └── Dockerfile                  # Imagem do frontend
 ```
 
 ---
@@ -211,7 +267,7 @@ cp .env.example .env
 npx prisma migrate dev
 
 # Inicie o servidor de desenvolvimento
-npm run dev
+npm run server
 ```
 
 #### Frontend
